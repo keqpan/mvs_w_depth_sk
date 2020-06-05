@@ -22,7 +22,7 @@ code to reproduce the results of Skoltech DL/FDS course project "How good MVSNet
     ```python fastmvsnet/train.py --cfg configs/dtu.yaml``` - for original FastMVSNet
 
 
-    ```python fastmvsnet/train1.py --cfg configs/dtu.yaml``` - for FastMVSNet with input depth added as addiitonal channel (our modification)
+    ```python fastmvsnet/train1.py --cfg configs/dtu.yaml``` - for FastMVSNet with corrupted input depth added as addiitonal channel (our modification)
 
 
     You can change the batch size in the configuration file ```configs/dtu.yaml```.
