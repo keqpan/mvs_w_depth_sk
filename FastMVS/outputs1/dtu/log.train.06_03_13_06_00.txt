@@ -1,0 +1,263 @@
+2020-06-03 13:06:00,040 fastmvsnet INFO: Using 1 GPUs
+2020-06-03 13:06:00,040 fastmvsnet INFO: Namespace(config_file='configs/dtu.yaml', opts=[])
+2020-06-03 13:06:00,040 fastmvsnet INFO: Loaded configuration file configs/dtu.yaml
+2020-06-03 13:06:00,040 fastmvsnet INFO: Running with config:
+AUTO_RESUME: True
+DATA:
+  NUM_WORKERS: 16
+  TEST:
+    IMG_HEIGHT: 960
+    IMG_WIDTH: 1280
+    INTER_SCALE: 2.13
+    NUM_VIEW: 5
+    NUM_VIRTUAL_PLANE: 96
+    ROOT_DIR: data/dtu2
+  TRAIN:
+    INTER_SCALE: 4.24
+    NUM_VIEW: 3
+    NUM_VIRTUAL_PLANE: 48
+    ROOT_DIR: data/dtu2
+  VAL:
+    NUM_VIEW: 3
+    ROOT_DIR: data/dtu
+MODEL:
+  EDGE_CHANNELS: (32, 32, 64)
+  FLOW_CHANNELS: (64, 64, 16, 1)
+  IMG_BASE_CHANNELS: 8
+  NUM_VIRTUAL_PLANE: 48
+  TEST:
+    IMG_SCALES: (0.25, 0.5)
+    INTER_SCALES: (0.75, 0.15)
+  TRAIN:
+    IMG_SCALES: (0.25, 0.5)
+    INTER_SCALES: (0.75, 0.375)
+  VAL:
+    IMG_SCALES: (0.125, 0.25)
+    INTER_SCALES: (0.75, 0.375)
+  VALID_THRESHOLD: 8.0
+  VOL_BASE_CHANNELS: 8
+  WEIGHT: 
+OUTPUT_DIR: @
+RNG_SEED: 1
+SCHEDULER:
+  INIT_EPOCH: 4
+  MAX_EPOCH: 16
+  MultiStepLR:
+    gamma: 0.1
+    milestones: ()
+  StepLR:
+    gamma: 0.9
+    step_size: 2
+  TYPE: StepLR
+SOLVER:
+  BASE_LR: 0.0005
+  RMSprop:
+    alpha: 0.9
+  SGD:
+    momentum: 0.9
+  TYPE: RMSprop
+  WEIGHT_DECAY: 0.001
+TEST:
+  AUGMENTATION: ()
+  BATCH_SIZE: 1
+  LOG_PERIOD: 10
+  WEIGHT: outputs/dtu_wde3/model_016.pth
+TRAIN:
+  AUGMENTATION: ()
+  BATCH_SIZE: 16
+  CHECKPOINT_PERIOD: 1
+  FROZEN_PATTERNS: ()
+  LOG_PERIOD: 10
+  VAL_METRIC: <1_cor
+  VAL_PERIOD: 0
+2020-06-03 13:06:00,057 fastmvsnet.trainer INFO: Build model:
+FastMVSNet(
+  (feature_fetcher): FeatureFetcher()
+  (feature_grad_fetcher): FeatureGradFetcher()
+  (point_grad_fetcher): PointGrad()
+  (coarse_img_conv): ImageConv(
+    (conv0): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(4, 8, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(8, 8, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (conv1): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(8, 16, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (2): Conv2d(
+        (conv): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (conv2): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (2): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    )
+  )
+  (coarse_vol_conv): VolumeConv(
+    (conv1_0): Conv3d(
+      (conv): Conv3d(32, 16, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv2_0): Conv3d(
+      (conv): Conv3d(16, 32, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv3_0): Conv3d(
+      (conv): Conv3d(32, 64, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv0_1): Conv3d(
+      (conv): Conv3d(32, 8, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv1_1): Conv3d(
+      (conv): Conv3d(16, 16, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv2_1): Conv3d(
+      (conv): Conv3d(32, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv3_1): Conv3d(
+      (conv): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv4_0): Deconv3d(
+      (conv): ConvTranspose3d(64, 32, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), output_padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv5_0): Deconv3d(
+      (conv): ConvTranspose3d(32, 16, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), output_padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv6_0): Deconv3d(
+      (conv): ConvTranspose3d(16, 8, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), output_padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv6_2): Conv3d(8, 1, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+  )
+  (propagation_net): PropagationNet(
+    (img_conv): ImageConv(
+      (conv0): Sequential(
+        (0): Conv2d(
+          (conv): Conv2d(4, 8, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Conv2d(
+          (conv): Conv2d(8, 8, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (conv1): Sequential(
+        (0): Conv2d(
+          (conv): Conv2d(8, 16, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), bias=False)
+          (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Conv2d(
+          (conv): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (2): Conv2d(
+          (conv): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (conv2): Sequential(
+        (0): Conv2d(
+          (conv): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), bias=False)
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Conv2d(
+          (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (2): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+    )
+    (conv1): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(32, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (conv2): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(32, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (conv3): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(32, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(16, 9, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    )
+    (unfold): Unfold(kernel_size=(3, 3), dilation=1, padding=0, stride=1)
+  )
+  (flow_img_conv): ImageConv(
+    (conv0): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(4, 8, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(8, 8, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (conv1): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(8, 16, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (2): Conv2d(
+        (conv): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (conv2): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (2): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    )
+  )
+)
+2020-06-03 13:06:02,002 fastmvsnet.trainer INFO: No checkpoint found. Initializing model from scratch

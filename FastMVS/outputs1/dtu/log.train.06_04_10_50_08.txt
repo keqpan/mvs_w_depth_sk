@@ -1,0 +1,428 @@
+2020-06-04 10:50:08,396 fastmvsnet INFO: Using 1 GPUs
+2020-06-04 10:50:08,396 fastmvsnet INFO: Namespace(config_file='configs/dtu.yaml', opts=[])
+2020-06-04 10:50:08,396 fastmvsnet INFO: Loaded configuration file configs/dtu.yaml
+2020-06-04 10:50:08,396 fastmvsnet INFO: Running with config:
+AUTO_RESUME: True
+DATA:
+  NUM_WORKERS: 16
+  TEST:
+    IMG_HEIGHT: 960
+    IMG_WIDTH: 1280
+    INTER_SCALE: 2.13
+    NUM_VIEW: 5
+    NUM_VIRTUAL_PLANE: 96
+    ROOT_DIR: data/dtu
+  TRAIN:
+    INTER_SCALE: 4.24
+    NUM_VIEW: 3
+    NUM_VIRTUAL_PLANE: 48
+    ROOT_DIR: data/dtu
+  VAL:
+    NUM_VIEW: 3
+    ROOT_DIR: data/dtu
+MODEL:
+  EDGE_CHANNELS: (32, 32, 64)
+  FLOW_CHANNELS: (64, 64, 16, 1)
+  IMG_BASE_CHANNELS: 8
+  NUM_VIRTUAL_PLANE: 48
+  TEST:
+    IMG_SCALES: (0.25, 0.5)
+    INTER_SCALES: (0.75, 0.15)
+  TRAIN:
+    IMG_SCALES: (0.25, 0.5)
+    INTER_SCALES: (0.75, 0.375)
+  VAL:
+    IMG_SCALES: (0.125, 0.25)
+    INTER_SCALES: (0.75, 0.375)
+  VALID_THRESHOLD: 8.0
+  VOL_BASE_CHANNELS: 8
+  WEIGHT: 
+OUTPUT_DIR: @
+RNG_SEED: 1
+SCHEDULER:
+  INIT_EPOCH: 4
+  MAX_EPOCH: 16
+  MultiStepLR:
+    gamma: 0.1
+    milestones: ()
+  StepLR:
+    gamma: 0.9
+    step_size: 2
+  TYPE: StepLR
+SOLVER:
+  BASE_LR: 0.0005
+  RMSprop:
+    alpha: 0.9
+  SGD:
+    momentum: 0.9
+  TYPE: RMSprop
+  WEIGHT_DECAY: 0.001
+TEST:
+  AUGMENTATION: ()
+  BATCH_SIZE: 1
+  LOG_PERIOD: 10
+  WEIGHT: outputs/dtu_wde3/model_016.pth
+TRAIN:
+  AUGMENTATION: ()
+  BATCH_SIZE: 4
+  CHECKPOINT_PERIOD: 1
+  FROZEN_PATTERNS: ()
+  LOG_PERIOD: 10
+  VAL_METRIC: <1_cor
+  VAL_PERIOD: 0
+2020-06-04 10:50:08,409 fastmvsnet.trainer INFO: Build model:
+FastMVSNet(
+  (feature_fetcher): FeatureFetcher()
+  (feature_grad_fetcher): FeatureGradFetcher()
+  (point_grad_fetcher): PointGrad()
+  (coarse_img_conv): ImageConv(
+    (conv0): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(4, 8, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(8, 8, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (conv1): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(8, 16, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (2): Conv2d(
+        (conv): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (conv2): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (2): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    )
+  )
+  (coarse_vol_conv): VolumeConv(
+    (conv1_0): Conv3d(
+      (conv): Conv3d(32, 16, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv2_0): Conv3d(
+      (conv): Conv3d(16, 32, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv3_0): Conv3d(
+      (conv): Conv3d(32, 64, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv0_1): Conv3d(
+      (conv): Conv3d(32, 8, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv1_1): Conv3d(
+      (conv): Conv3d(16, 16, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv2_1): Conv3d(
+      (conv): Conv3d(32, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv3_1): Conv3d(
+      (conv): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv4_0): Deconv3d(
+      (conv): ConvTranspose3d(64, 32, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), output_padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv5_0): Deconv3d(
+      (conv): ConvTranspose3d(32, 16, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), output_padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv6_0): Deconv3d(
+      (conv): ConvTranspose3d(16, 8, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), output_padding=(1, 1, 1), bias=False)
+      (bn): BatchNorm3d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv6_2): Conv3d(8, 1, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+  )
+  (propagation_net): PropagationNet(
+    (img_conv): ImageConv(
+      (conv0): Sequential(
+        (0): Conv2d(
+          (conv): Conv2d(4, 8, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Conv2d(
+          (conv): Conv2d(8, 8, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (conv1): Sequential(
+        (0): Conv2d(
+          (conv): Conv2d(8, 16, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), bias=False)
+          (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Conv2d(
+          (conv): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (2): Conv2d(
+          (conv): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (conv2): Sequential(
+        (0): Conv2d(
+          (conv): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), bias=False)
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Conv2d(
+          (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (2): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+    )
+    (conv1): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(32, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (conv2): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(32, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (conv3): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(32, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(16, 9, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    )
+    (unfold): Unfold(kernel_size=(3, 3), dilation=1, padding=0, stride=1)
+  )
+  (flow_img_conv): ImageConv(
+    (conv0): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(4, 8, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(8, 8, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (conv1): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(8, 16, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (2): Conv2d(
+        (conv): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (conv2): Sequential(
+      (0): Conv2d(
+        (conv): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): Conv2d(
+        (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (2): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    )
+  )
+)
+2020-06-04 10:50:10,234 fastmvsnet.trainer INFO: Loading checkpoint from outputs1/dtu/model_004.pth
+2020-06-04 10:50:10,253 fastmvsnet.trainer INFO: Loading scheduler from outputs1/dtu/model_004.pth
+2020-06-04 10:50:10,677 fastmvsnet.trainer INFO: Start training from epoch 4
+2020-06-04 10:50:13,111 fastmvsnet.train INFO: EPOCH:  4  iter:    0  loss: 1.4490 (1.4490)  coarse_loss: 0.2408 (0.2408)  flow1_loss: 0.3211 (0.3211)  flow2_loss: 0.8870 (0.8870)  <1_pct_cor: 0.9852 (0.9852)  <3_pct_cor: 0.9980 (0.9980)  <1_pct_flow1: 0.9752 (0.9752)  <3_pct_flow1: 0.9973 (0.9973)  <1_pct_flow2: 0.8269 (0.8269)  <3_pct_flow2: 0.9852 (0.9852)  time: 2.4325 (2.4325)  data: 0.9111 (0.9111)  lr: 5.00e-04  max mem: 5879
+2020-06-04 10:50:27,092 fastmvsnet.train INFO: EPOCH:  4  iter:   10  loss: 1.7320 (1.7320)  coarse_loss: 0.3172 (0.3172)  flow1_loss: 0.4230 (0.4230)  flow2_loss: 0.9918 (0.9918)  <1_pct_cor: 0.9700 (0.9700)  <3_pct_cor: 0.9937 (0.9937)  <1_pct_flow1: 0.9554 (0.9554)  <3_pct_flow1: 0.9923 (0.9923)  <1_pct_flow2: 0.8264 (0.8264)  <3_pct_flow2: 0.9777 (0.9777)  time: 1.4922 (1.4922)  data: 0.1994 (0.1994)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:50:40,162 fastmvsnet.train INFO: EPOCH:  4  iter:   20  loss: 1.6001 (1.5929)  coarse_loss: 0.2953 (0.2927)  flow1_loss: 0.3937 (0.3902)  flow2_loss: 0.9112 (0.9100)  <1_pct_cor: 0.9757 (0.9762)  <3_pct_cor: 0.9949 (0.9950)  <1_pct_flow1: 0.9629 (0.9635)  <3_pct_flow1: 0.9941 (0.9942)  <1_pct_flow2: 0.8465 (0.8456)  <3_pct_flow2: 0.9822 (0.9823)  time: 1.3526 (1.4040)  data: 0.0819 (0.1214)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:50:53,236 fastmvsnet.train INFO: EPOCH:  4  iter:   30  loss: 1.4407 (1.5440)  coarse_loss: 0.2675 (0.2852)  flow1_loss: 0.3567 (0.3802)  flow2_loss: 0.8164 (0.8787)  <1_pct_cor: 0.9819 (0.9777)  <3_pct_cor: 0.9965 (0.9955)  <1_pct_flow1: 0.9710 (0.9655)  <3_pct_flow1: 0.9960 (0.9947)  <1_pct_flow2: 0.8710 (0.8552)  <3_pct_flow2: 0.9866 (0.9835)  time: 1.3072 (1.3728)  data: 0.0348 (0.0932)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:51:06,414 fastmvsnet.train INFO: EPOCH:  4  iter:   40  loss: 1.4339 (1.5154)  coarse_loss: 0.2681 (0.2807)  flow1_loss: 0.3574 (0.3742)  flow2_loss: 0.8084 (0.8605)  <1_pct_cor: 0.9816 (0.9788)  <3_pct_cor: 0.9966 (0.9958)  <1_pct_flow1: 0.9706 (0.9670)  <3_pct_flow1: 0.9959 (0.9951)  <1_pct_flow2: 0.8712 (0.8581)  <3_pct_flow2: 0.9865 (0.9844)  time: 1.3126 (1.3594)  data: 0.0347 (0.0791)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:51:19,569 fastmvsnet.train INFO: EPOCH:  4  iter:   50  loss: 1.4908 (1.5231)  coarse_loss: 0.2818 (0.2838)  flow1_loss: 0.3757 (0.3784)  flow2_loss: 0.8334 (0.8609)  <1_pct_cor: 0.9792 (0.9783)  <3_pct_cor: 0.9956 (0.9955)  <1_pct_flow1: 0.9687 (0.9667)  <3_pct_flow1: 0.9953 (0.9949)  <1_pct_flow2: 0.8711 (0.8614)  <3_pct_flow2: 0.9858 (0.9844)  time: 1.3166 (1.3508)  data: 0.0355 (0.0706)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:51:32,793 fastmvsnet.train INFO: EPOCH:  4  iter:   60  loss: 1.4683 (1.4999)  coarse_loss: 0.2791 (0.2802)  flow1_loss: 0.3721 (0.3735)  flow2_loss: 0.8171 (0.8462)  <1_pct_cor: 0.9788 (0.9788)  <3_pct_cor: 0.9953 (0.9956)  <1_pct_flow1: 0.9683 (0.9674)  <3_pct_flow1: 0.9950 (0.9950)  <1_pct_flow2: 0.8785 (0.8648)  <3_pct_flow2: 0.9859 (0.9849)  time: 1.3190 (1.3462)  data: 0.0356 (0.0649)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:51:45,995 fastmvsnet.train INFO: EPOCH:  4  iter:   70  loss: 1.4012 (1.4888)  coarse_loss: 0.2670 (0.2791)  flow1_loss: 0.3560 (0.3721)  flow2_loss: 0.7781 (0.8376)  <1_pct_cor: 0.9813 (0.9791)  <3_pct_cor: 0.9960 (0.9957)  <1_pct_flow1: 0.9710 (0.9679)  <3_pct_flow1: 0.9954 (0.9951)  <1_pct_flow2: 0.8842 (0.8678)  <3_pct_flow2: 0.9873 (0.9852)  time: 1.3213 (1.3425)  data: 0.0357 (0.0607)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:51:59,198 fastmvsnet.train INFO: EPOCH:  4  iter:   80  loss: 1.4192 (1.4800)  coarse_loss: 0.2723 (0.2782)  flow1_loss: 0.3631 (0.3710)  flow2_loss: 0.7838 (0.8308)  <1_pct_cor: 0.9809 (0.9794)  <3_pct_cor: 0.9958 (0.9957)  <1_pct_flow1: 0.9713 (0.9684)  <3_pct_flow1: 0.9952 (0.9951)  <1_pct_flow2: 0.8855 (0.8699)  <3_pct_flow2: 0.9871 (0.9854)  time: 1.3202 (1.3398)  data: 0.0357 (0.0576)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:52:12,397 fastmvsnet.train INFO: EPOCH:  4  iter:   90  loss: 1.3833 (1.4656)  coarse_loss: 0.2665 (0.2763)  flow1_loss: 0.3553 (0.3684)  flow2_loss: 0.7616 (0.8209)  <1_pct_cor: 0.9825 (0.9799)  <3_pct_cor: 0.9963 (0.9958)  <1_pct_flow1: 0.9724 (0.9689)  <3_pct_flow1: 0.9960 (0.9953)  <1_pct_flow2: 0.8845 (0.8715)  <3_pct_flow2: 0.9881 (0.9858)  time: 1.3201 (1.3376)  data: 0.0358 (0.0553)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:52:25,611 fastmvsnet.train INFO: EPOCH:  4  iter:  100  loss: 1.4232 (1.4687)  coarse_loss: 0.2755 (0.2777)  flow1_loss: 0.3673 (0.3702)  flow2_loss: 0.7805 (0.8209)  <1_pct_cor: 0.9803 (0.9795)  <3_pct_cor: 0.9960 (0.9957)  <1_pct_flow1: 0.9699 (0.9687)  <3_pct_flow1: 0.9958 (0.9952)  <1_pct_flow2: 0.8843 (0.8727)  <3_pct_flow2: 0.9866 (0.9857)  time: 1.3207 (1.3360)  data: 0.0358 (0.0533)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:52:38,875 fastmvsnet.train INFO: EPOCH:  4  iter:  110  loss: 1.4736 (1.4670)  coarse_loss: 0.2842 (0.2777)  flow1_loss: 0.3790 (0.3703)  flow2_loss: 0.8104 (0.8190)  <1_pct_cor: 0.9766 (0.9793)  <3_pct_cor: 0.9954 (0.9957)  <1_pct_flow1: 0.9656 (0.9683)  <3_pct_flow1: 0.9951 (0.9952)  <1_pct_flow2: 0.8811 (0.8733)  <3_pct_flow2: 0.9842 (0.9855)  time: 1.3239 (1.3351)  data: 0.0358 (0.0517)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:52:52,142 fastmvsnet.train INFO: EPOCH:  4  iter:  120  loss: 1.4281 (1.4620)  coarse_loss: 0.2754 (0.2773)  flow1_loss: 0.3672 (0.3697)  flow2_loss: 0.7855 (0.8150)  <1_pct_cor: 0.9778 (0.9793)  <3_pct_cor: 0.9959 (0.9958)  <1_pct_flow1: 0.9661 (0.9682)  <3_pct_flow1: 0.9954 (0.9953)  <1_pct_flow2: 0.8819 (0.8743)  <3_pct_flow2: 0.9848 (0.9855)  time: 1.3265 (1.3344)  data: 0.0359 (0.0504)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:53:05,371 fastmvsnet.train INFO: EPOCH:  4  iter:  130  loss: 1.3967 (1.4563)  coarse_loss: 0.2715 (0.2768)  flow1_loss: 0.3620 (0.3690)  flow2_loss: 0.7633 (0.8105)  <1_pct_cor: 0.9793 (0.9793)  <3_pct_cor: 0.9958 (0.9958)  <1_pct_flow1: 0.9688 (0.9684)  <3_pct_flow1: 0.9953 (0.9952)  <1_pct_flow2: 0.8907 (0.8759)  <3_pct_flow2: 0.9860 (0.9856)  time: 1.3248 (1.3335)  data: 0.0358 (0.0493)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:53:18,679 fastmvsnet.train INFO: EPOCH:  4  iter:  140  loss: 1.4153 (1.4554)  coarse_loss: 0.2780 (0.2774)  flow1_loss: 0.3707 (0.3699)  flow2_loss: 0.7666 (0.8081)  <1_pct_cor: 0.9792 (0.9793)  <3_pct_cor: 0.9960 (0.9958)  <1_pct_flow1: 0.9680 (0.9682)  <3_pct_flow1: 0.9955 (0.9953)  <1_pct_flow2: 0.8917 (0.8767)  <3_pct_flow2: 0.9861 (0.9856)  time: 1.3268 (1.3333)  data: 0.0358 (0.0484)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:53:32,042 fastmvsnet.train INFO: EPOCH:  4  iter:  150  loss: 1.4045 (1.4494)  coarse_loss: 0.2754 (0.2766)  flow1_loss: 0.3671 (0.3688)  flow2_loss: 0.7620 (0.8041)  <1_pct_cor: 0.9801 (0.9794)  <3_pct_cor: 0.9967 (0.9959)  <1_pct_flow1: 0.9675 (0.9683)  <3_pct_flow1: 0.9961 (0.9954)  <1_pct_flow2: 0.8854 (0.8772)  <3_pct_flow2: 0.9864 (0.9857)  time: 1.3335 (1.3335)  data: 0.0359 (0.0475)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:53:45,349 fastmvsnet.train INFO: EPOCH:  4  iter:  160  loss: 1.3944 (1.4478)  coarse_loss: 0.2729 (0.2768)  flow1_loss: 0.3639 (0.3691)  flow2_loss: 0.7576 (0.8019)  <1_pct_cor: 0.9805 (0.9794)  <3_pct_cor: 0.9964 (0.9959)  <1_pct_flow1: 0.9688 (0.9683)  <3_pct_flow1: 0.9957 (0.9953)  <1_pct_flow2: 0.8854 (0.8778)  <3_pct_flow2: 0.9866 (0.9857)  time: 1.3335 (1.3334)  data: 0.0358 (0.0468)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:53:58,683 fastmvsnet.train INFO: EPOCH:  4  iter:  170  loss: 1.3912 (1.4426)  coarse_loss: 0.2741 (0.2763)  flow1_loss: 0.3655 (0.3684)  flow2_loss: 0.7515 (0.7979)  <1_pct_cor: 0.9801 (0.9795)  <3_pct_cor: 0.9960 (0.9959)  <1_pct_flow1: 0.9691 (0.9684)  <3_pct_flow1: 0.9953 (0.9954)  <1_pct_flow2: 0.8897 (0.8786)  <3_pct_flow2: 0.9866 (0.9858)  time: 1.3321 (1.3334)  data: 0.0358 (0.0462)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:54:11,993 fastmvsnet.train INFO: EPOCH:  4  iter:  180  loss: 1.3142 (1.4331)  coarse_loss: 0.2590 (0.2749)  flow1_loss: 0.3453 (0.3665)  flow2_loss: 0.7099 (0.7917)  <1_pct_cor: 0.9815 (0.9796)  <3_pct_cor: 0.9965 (0.9959)  <1_pct_flow1: 0.9707 (0.9685)  <3_pct_flow1: 0.9959 (0.9954)  <1_pct_flow2: 0.8966 (0.8799)  <3_pct_flow2: 0.9874 (0.9859)  time: 1.3322 (1.3332)  data: 0.0359 (0.0456)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:54:25,353 fastmvsnet.train INFO: EPOCH:  4  iter:  190  loss: 1.2961 (1.4273)  coarse_loss: 0.2560 (0.2742)  flow1_loss: 0.3413 (0.3656)  flow2_loss: 0.6988 (0.7875)  <1_pct_cor: 0.9819 (0.9797)  <3_pct_cor: 0.9963 (0.9959)  <1_pct_flow1: 0.9715 (0.9687)  <3_pct_flow1: 0.9960 (0.9954)  <1_pct_flow2: 0.9024 (0.8811)  <3_pct_flow2: 0.9878 (0.9860)  time: 1.3335 (1.3334)  data: 0.0359 (0.0451)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:54:38,638 fastmvsnet.train INFO: EPOCH:  4  iter:  200  loss: 1.3393 (1.4237)  coarse_loss: 0.2639 (0.2738)  flow1_loss: 0.3519 (0.3650)  flow2_loss: 0.7235 (0.7849)  <1_pct_cor: 0.9810 (0.9798)  <3_pct_cor: 0.9959 (0.9959)  <1_pct_flow1: 0.9708 (0.9688)  <3_pct_flow1: 0.9952 (0.9954)  <1_pct_flow2: 0.8995 (0.8818)  <3_pct_flow2: 0.9872 (0.9860)  time: 1.3322 (1.3331)  data: 0.0359 (0.0446)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:54:51,973 fastmvsnet.train INFO: EPOCH:  4  iter:  210  loss: 1.4114 (1.4258)  coarse_loss: 0.2782 (0.2746)  flow1_loss: 0.3709 (0.3661)  flow2_loss: 0.7623 (0.7851)  <1_pct_cor: 0.9787 (0.9796)  <3_pct_cor: 0.9953 (0.9959)  <1_pct_flow1: 0.9682 (0.9687)  <3_pct_flow1: 0.9945 (0.9953)  <1_pct_flow2: 0.8938 (0.8823)  <3_pct_flow2: 0.9860 (0.9860)  time: 1.3310 (1.3331)  data: 0.0360 (0.0442)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:55:05,307 fastmvsnet.train INFO: EPOCH:  4  iter:  220  loss: 1.4503 (1.4261)  coarse_loss: 0.2873 (0.2750)  flow1_loss: 0.3831 (0.3667)  flow2_loss: 0.7798 (0.7845)  <1_pct_cor: 0.9780 (0.9796)  <3_pct_cor: 0.9951 (0.9959)  <1_pct_flow1: 0.9673 (0.9686)  <3_pct_flow1: 0.9948 (0.9953)  <1_pct_flow2: 0.8932 (0.8829)  <3_pct_flow2: 0.9857 (0.9860)  time: 1.3334 (1.3332)  data: 0.0360 (0.0439)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:55:18,586 fastmvsnet.train INFO: EPOCH:  4  iter:  230  loss: 1.4827 (1.4307)  coarse_loss: 0.2942 (0.2763)  flow1_loss: 0.3923 (0.3683)  flow2_loss: 0.7962 (0.7861)  <1_pct_cor: 0.9766 (0.9794)  <3_pct_cor: 0.9951 (0.9958)  <1_pct_flow1: 0.9654 (0.9684)  <3_pct_flow1: 0.9946 (0.9953)  <1_pct_flow2: 0.8878 (0.8828)  <3_pct_flow2: 0.9846 (0.9859)  time: 1.3307 (1.3329)  data: 0.0358 (0.0435)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:55:31,893 fastmvsnet.train INFO: EPOCH:  4  iter:  240  loss: 1.5571 (1.4370)  coarse_loss: 0.3090 (0.2778)  flow1_loss: 0.4120 (0.3704)  flow2_loss: 0.8361 (0.7887)  <1_pct_cor: 0.9740 (0.9791)  <3_pct_cor: 0.9938 (0.9957)  <1_pct_flow1: 0.9624 (0.9681)  <3_pct_flow1: 0.9936 (0.9952)  <1_pct_flow2: 0.8845 (0.8830)  <3_pct_flow2: 0.9836 (0.9858)  time: 1.3293 (1.3328)  data: 0.0359 (0.0432)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:55:45,164 fastmvsnet.train INFO: EPOCH:  4  iter:  250  loss: 1.4368 (1.4312)  coarse_loss: 0.2856 (0.2770)  flow1_loss: 0.3808 (0.3693)  flow2_loss: 0.7703 (0.7848)  <1_pct_cor: 0.9781 (0.9793)  <3_pct_cor: 0.9949 (0.9957)  <1_pct_flow1: 0.9670 (0.9683)  <3_pct_flow1: 0.9949 (0.9952)  <1_pct_flow2: 0.8934 (0.8836)  <3_pct_flow2: 0.9861 (0.9859)  time: 1.3289 (1.3326)  data: 0.0359 (0.0429)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:55:58,455 fastmvsnet.train INFO: EPOCH:  4  iter:  260  loss: 1.4693 (1.4395)  coarse_loss: 0.2924 (0.2789)  flow1_loss: 0.3899 (0.3719)  flow2_loss: 0.7870 (0.7886)  <1_pct_cor: 0.9766 (0.9789)  <3_pct_cor: 0.9953 (0.9957)  <1_pct_flow1: 0.9643 (0.9678)  <3_pct_flow1: 0.9947 (0.9952)  <1_pct_flow2: 0.8851 (0.8832)  <3_pct_flow2: 0.9845 (0.9857)  time: 1.3281 (1.3325)  data: 0.0358 (0.0426)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:56:11,774 fastmvsnet.train INFO: EPOCH:  4  iter:  270  loss: 1.5188 (1.4377)  coarse_loss: 0.3020 (0.2789)  flow1_loss: 0.4027 (0.3718)  flow2_loss: 0.8140 (0.7870)  <1_pct_cor: 0.9751 (0.9790)  <3_pct_cor: 0.9947 (0.9957)  <1_pct_flow1: 0.9628 (0.9679)  <3_pct_flow1: 0.9941 (0.9952)  <1_pct_flow2: 0.8829 (0.8836)  <3_pct_flow2: 0.9837 (0.9857)  time: 1.3305 (1.3325)  data: 0.0359 (0.0424)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:56:25,064 fastmvsnet.train INFO: EPOCH:  4  iter:  280  loss: 1.4756 (1.4420)  coarse_loss: 0.2950 (0.2801)  flow1_loss: 0.3933 (0.3735)  flow2_loss: 0.7872 (0.7885)  <1_pct_cor: 0.9783 (0.9789)  <3_pct_cor: 0.9957 (0.9957)  <1_pct_flow1: 0.9662 (0.9677)  <3_pct_flow1: 0.9951 (0.9951)  <1_pct_flow2: 0.8881 (0.8835)  <3_pct_flow2: 0.9856 (0.9857)  time: 1.3304 (1.3323)  data: 0.0359 (0.0421)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:56:38,376 fastmvsnet.train INFO: EPOCH:  4  iter:  290  loss: 1.5748 (1.4471)  coarse_loss: 0.3152 (0.2814)  flow1_loss: 0.4202 (0.3751)  flow2_loss: 0.8394 (0.7906)  <1_pct_cor: 0.9754 (0.9787)  <3_pct_cor: 0.9950 (0.9956)  <1_pct_flow1: 0.9627 (0.9675)  <3_pct_flow1: 0.9943 (0.9951)  <1_pct_flow2: 0.8833 (0.8836)  <3_pct_flow2: 0.9835 (0.9856)  time: 1.3301 (1.3323)  data: 0.0359 (0.0419)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:56:51,701 fastmvsnet.train INFO: EPOCH:  4  iter:  300  loss: 1.5251 (1.4476)  coarse_loss: 0.3047 (0.2817)  flow1_loss: 0.4062 (0.3756)  flow2_loss: 0.8142 (0.7902)  <1_pct_cor: 0.9756 (0.9787)  <3_pct_cor: 0.9950 (0.9956)  <1_pct_flow1: 0.9629 (0.9674)  <3_pct_flow1: 0.9942 (0.9951)  <1_pct_flow2: 0.8822 (0.8834)  <3_pct_flow2: 0.9839 (0.9856)  time: 1.3318 (1.3323)  data: 0.0359 (0.0417)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:57:05,022 fastmvsnet.train INFO: EPOCH:  4  iter:  310  loss: 1.5594 (1.4543)  coarse_loss: 0.3122 (0.2833)  flow1_loss: 0.4163 (0.3778)  flow2_loss: 0.8309 (0.7932)  <1_pct_cor: 0.9738 (0.9784)  <3_pct_cor: 0.9947 (0.9956)  <1_pct_flow1: 0.9596 (0.9670)  <3_pct_flow1: 0.9937 (0.9950)  <1_pct_flow2: 0.8764 (0.8831)  <3_pct_flow2: 0.9828 (0.9854)  time: 1.3323 (1.3323)  data: 0.0359 (0.0415)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:57:18,297 fastmvsnet.train INFO: EPOCH:  4  iter:  320  loss: 1.5732 (1.4554)  coarse_loss: 0.3154 (0.2838)  flow1_loss: 0.4205 (0.3784)  flow2_loss: 0.8373 (0.7932)  <1_pct_cor: 0.9738 (0.9784)  <3_pct_cor: 0.9941 (0.9955)  <1_pct_flow1: 0.9605 (0.9670)  <3_pct_flow1: 0.9937 (0.9950)  <1_pct_flow2: 0.8822 (0.8834)  <3_pct_flow2: 0.9832 (0.9854)  time: 1.3298 (1.3321)  data: 0.0359 (0.0414)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:57:31,603 fastmvsnet.train INFO: EPOCH:  4  iter:  330  loss: 1.5044 (1.4573)  coarse_loss: 0.3018 (0.2844)  flow1_loss: 0.4024 (0.3793)  flow2_loss: 0.8003 (0.7936)  <1_pct_cor: 0.9754 (0.9782)  <3_pct_cor: 0.9941 (0.9955)  <1_pct_flow1: 0.9638 (0.9668)  <3_pct_flow1: 0.9940 (0.9949)  <1_pct_flow2: 0.8895 (0.8835)  <3_pct_flow2: 0.9844 (0.9854)  time: 1.3290 (1.3321)  data: 0.0359 (0.0412)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:57:44,920 fastmvsnet.train INFO: EPOCH:  4  iter:  340  loss: 1.4348 (1.4542)  coarse_loss: 0.2878 (0.2840)  flow1_loss: 0.3837 (0.3787)  flow2_loss: 0.7634 (0.7914)  <1_pct_cor: 0.9765 (0.9783)  <3_pct_cor: 0.9950 (0.9955)  <1_pct_flow1: 0.9648 (0.9668)  <3_pct_flow1: 0.9945 (0.9950)  <1_pct_flow2: 0.8924 (0.8839)  <3_pct_flow2: 0.9849 (0.9854)  time: 1.3311 (1.3321)  data: 0.0360 (0.0411)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:57:58,240 fastmvsnet.train INFO: EPOCH:  4  iter:  350  loss: 1.2773 (1.4471)  coarse_loss: 0.2566 (0.2829)  flow1_loss: 0.3421 (0.3771)  flow2_loss: 0.6787 (0.7871)  <1_pct_cor: 0.9826 (0.9785)  <3_pct_cor: 0.9968 (0.9955)  <1_pct_flow1: 0.9723 (0.9671)  <3_pct_flow1: 0.9964 (0.9950)  <1_pct_flow2: 0.9038 (0.8846)  <3_pct_flow2: 0.9886 (0.9855)  time: 1.3318 (1.3321)  data: 0.0360 (0.0409)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:58:11,561 fastmvsnet.train INFO: EPOCH:  4  iter:  360  loss: 1.2801 (1.4445)  coarse_loss: 0.2563 (0.2825)  flow1_loss: 0.3417 (0.3767)  flow2_loss: 0.6820 (0.7853)  <1_pct_cor: 0.9835 (0.9786)  <3_pct_cor: 0.9963 (0.9955)  <1_pct_flow1: 0.9741 (0.9672)  <3_pct_flow1: 0.9960 (0.9950)  <1_pct_flow2: 0.9065 (0.8851)  <3_pct_flow2: 0.9894 (0.9856)  time: 1.3320 (1.3321)  data: 0.0359 (0.0408)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:58:24,852 fastmvsnet.train INFO: EPOCH:  4  iter:  370  loss: 1.3586 (1.4423)  coarse_loss: 0.2708 (0.2822)  flow1_loss: 0.3611 (0.3763)  flow2_loss: 0.7268 (0.7838)  <1_pct_cor: 0.9810 (0.9786)  <3_pct_cor: 0.9957 (0.9955)  <1_pct_flow1: 0.9706 (0.9673)  <3_pct_flow1: 0.9953 (0.9950)  <1_pct_flow2: 0.9006 (0.8855)  <3_pct_flow2: 0.9877 (0.9857)  time: 1.3306 (1.3320)  data: 0.0359 (0.0406)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:58:38,186 fastmvsnet.train INFO: EPOCH:  4  iter:  380  loss: 1.5084 (1.4479)  coarse_loss: 0.3025 (0.2836)  flow1_loss: 0.4033 (0.3781)  flow2_loss: 0.8026 (0.7862)  <1_pct_cor: 0.9745 (0.9783)  <3_pct_cor: 0.9942 (0.9955)  <1_pct_flow1: 0.9624 (0.9670)  <3_pct_flow1: 0.9940 (0.9950)  <1_pct_flow2: 0.8874 (0.8853)  <3_pct_flow2: 0.9837 (0.9855)  time: 1.3313 (1.3320)  data: 0.0360 (0.0405)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:58:51,476 fastmvsnet.train INFO: EPOCH:  4  iter:  390  loss: 1.5731 (1.4490)  coarse_loss: 0.3172 (0.2840)  flow1_loss: 0.4230 (0.3787)  flow2_loss: 0.8329 (0.7863)  <1_pct_cor: 0.9723 (0.9783)  <3_pct_cor: 0.9930 (0.9954)  <1_pct_flow1: 0.9605 (0.9670)  <3_pct_flow1: 0.9932 (0.9949)  <1_pct_flow2: 0.8851 (0.8855)  <3_pct_flow2: 0.9829 (0.9855)  time: 1.3312 (1.3320)  data: 0.0359 (0.0404)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:59:04,765 fastmvsnet.train INFO: EPOCH:  4  iter:  400  loss: 1.4040 (1.4457)  coarse_loss: 0.2834 (0.2836)  flow1_loss: 0.3779 (0.3781)  flow2_loss: 0.7427 (0.7841)  <1_pct_cor: 0.9777 (0.9783)  <3_pct_cor: 0.9949 (0.9954)  <1_pct_flow1: 0.9669 (0.9670)  <3_pct_flow1: 0.9946 (0.9950)  <1_pct_flow2: 0.8975 (0.8859)  <3_pct_flow2: 0.9859 (0.9855)  time: 1.3290 (1.3319)  data: 0.0360 (0.0403)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:59:18,052 fastmvsnet.train INFO: EPOCH:  4  iter:  410  loss: 1.3600 (1.4447)  coarse_loss: 0.2741 (0.2835)  flow1_loss: 0.3654 (0.3780)  flow2_loss: 0.7206 (0.7831)  <1_pct_cor: 0.9787 (0.9783)  <3_pct_cor: 0.9958 (0.9954)  <1_pct_flow1: 0.9679 (0.9670)  <3_pct_flow1: 0.9949 (0.9949)  <1_pct_flow2: 0.8962 (0.8860)  <3_pct_flow2: 0.9858 (0.9855)  time: 1.3288 (1.3318)  data: 0.0361 (0.0402)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:59:31,354 fastmvsnet.train INFO: EPOCH:  4  iter:  420  loss: 1.4053 (1.4438)  coarse_loss: 0.2832 (0.2835)  flow1_loss: 0.3776 (0.3780)  flow2_loss: 0.7444 (0.7822)  <1_pct_cor: 0.9770 (0.9783)  <3_pct_cor: 0.9950 (0.9954)  <1_pct_flow1: 0.9666 (0.9670)  <3_pct_flow1: 0.9943 (0.9949)  <1_pct_flow2: 0.8938 (0.8862)  <3_pct_flow2: 0.9848 (0.9855)  time: 1.3295 (1.3318)  data: 0.0359 (0.0401)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:59:44,659 fastmvsnet.train INFO: EPOCH:  4  iter:  430  loss: 1.5137 (1.4479)  coarse_loss: 0.3044 (0.2845)  flow1_loss: 0.4059 (0.3793)  flow2_loss: 0.8034 (0.7841)  <1_pct_cor: 0.9727 (0.9780)  <3_pct_cor: 0.9945 (0.9954)  <1_pct_flow1: 0.9596 (0.9667)  <3_pct_flow1: 0.9936 (0.9949)  <1_pct_flow2: 0.8828 (0.8859)  <3_pct_flow2: 0.9820 (0.9854)  time: 1.3304 (1.3317)  data: 0.0359 (0.0400)  lr: 5.00e-04  max mem: 5899
+2020-06-04 10:59:58,005 fastmvsnet.train INFO: EPOCH:  4  iter:  440  loss: 1.5454 (1.4484)  coarse_loss: 0.3097 (0.2847)  flow1_loss: 0.4130 (0.3796)  flow2_loss: 0.8228 (0.7840)  <1_pct_cor: 0.9734 (0.9780)  <3_pct_cor: 0.9948 (0.9954)  <1_pct_flow1: 0.9594 (0.9666)  <3_pct_flow1: 0.9937 (0.9949)  <1_pct_flow2: 0.8775 (0.8858)  <3_pct_flow2: 0.9824 (0.9854)  time: 1.3325 (1.3318)  data: 0.0360 (0.0399)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:00:11,323 fastmvsnet.train INFO: EPOCH:  4  iter:  450  loss: 1.4080 (1.4461)  coarse_loss: 0.2831 (0.2844)  flow1_loss: 0.3775 (0.3792)  flow2_loss: 0.7475 (0.7824)  <1_pct_cor: 0.9800 (0.9781)  <3_pct_cor: 0.9960 (0.9954)  <1_pct_flow1: 0.9682 (0.9667)  <3_pct_flow1: 0.9956 (0.9949)  <1_pct_flow2: 0.8912 (0.8861)  <3_pct_flow2: 0.9870 (0.9854)  time: 1.3332 (1.3318)  data: 0.0360 (0.0398)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:00:24,658 fastmvsnet.train INFO: EPOCH:  4  iter:  460  loss: 1.3561 (1.4444)  coarse_loss: 0.2734 (0.2842)  flow1_loss: 0.3646 (0.3790)  flow2_loss: 0.7181 (0.7812)  <1_pct_cor: 0.9800 (0.9781)  <3_pct_cor: 0.9959 (0.9954)  <1_pct_flow1: 0.9688 (0.9667)  <3_pct_flow1: 0.9954 (0.9949)  <1_pct_flow2: 0.8976 (0.8864)  <3_pct_flow2: 0.9870 (0.9854)  time: 1.3326 (1.3318)  data: 0.0358 (0.0397)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:00:37,990 fastmvsnet.train INFO: EPOCH:  4  iter:  470  loss: 1.4159 (1.4448)  coarse_loss: 0.2863 (0.2845)  flow1_loss: 0.3817 (0.3793)  flow2_loss: 0.7480 (0.7810)  <1_pct_cor: 0.9752 (0.9780)  <3_pct_cor: 0.9955 (0.9954)  <1_pct_flow1: 0.9605 (0.9665)  <3_pct_flow1: 0.9946 (0.9949)  <1_pct_flow2: 0.8811 (0.8859)  <3_pct_flow2: 0.9834 (0.9854)  time: 1.3333 (1.3319)  data: 0.0360 (0.0396)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:00:51,348 fastmvsnet.train INFO: EPOCH:  4  iter:  480  loss: 1.5025 (1.4468)  coarse_loss: 0.3027 (0.2850)  flow1_loss: 0.4036 (0.3800)  flow2_loss: 0.7962 (0.7818)  <1_pct_cor: 0.9742 (0.9780)  <3_pct_cor: 0.9949 (0.9954)  <1_pct_flow1: 0.9598 (0.9664)  <3_pct_flow1: 0.9941 (0.9949)  <1_pct_flow2: 0.8755 (0.8859)  <3_pct_flow2: 0.9832 (0.9853)  time: 1.3345 (1.3320)  data: 0.0362 (0.0396)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:01:04,692 fastmvsnet.train INFO: EPOCH:  4  iter:  490  loss: 1.5092 (1.4474)  coarse_loss: 0.3027 (0.2852)  flow1_loss: 0.4035 (0.3803)  flow2_loss: 0.8030 (0.7819)  <1_pct_cor: 0.9768 (0.9780)  <3_pct_cor: 0.9944 (0.9954)  <1_pct_flow1: 0.9664 (0.9665)  <3_pct_flow1: 0.9939 (0.9949)  <1_pct_flow2: 0.8882 (0.8860)  <3_pct_flow2: 0.9853 (0.9854)  time: 1.3351 (1.3320)  data: 0.0361 (0.0395)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:01:18,006 fastmvsnet.train INFO: EPOCH:  4  iter:  500  loss: 1.3813 (1.4442)  coarse_loss: 0.2790 (0.2848)  flow1_loss: 0.3719 (0.3797)  flow2_loss: 0.7304 (0.7797)  <1_pct_cor: 0.9807 (0.9781)  <3_pct_cor: 0.9960 (0.9954)  <1_pct_flow1: 0.9699 (0.9666)  <3_pct_flow1: 0.9956 (0.9949)  <1_pct_flow2: 0.8954 (0.8863)  <3_pct_flow2: 0.9872 (0.9854)  time: 1.3329 (1.3320)  data: 0.0363 (0.0394)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:01:31,292 fastmvsnet.train INFO: EPOCH:  4  iter:  510  loss: 1.3565 (1.4439)  coarse_loss: 0.2758 (0.2849)  flow1_loss: 0.3677 (0.3798)  flow2_loss: 0.7130 (0.7792)  <1_pct_cor: 0.9817 (0.9781)  <3_pct_cor: 0.9968 (0.9954)  <1_pct_flow1: 0.9694 (0.9666)  <3_pct_flow1: 0.9964 (0.9949)  <1_pct_flow2: 0.8940 (0.8863)  <3_pct_flow2: 0.9878 (0.9854)  time: 1.3300 (1.3319)  data: 0.0363 (0.0394)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:01:44,629 fastmvsnet.train INFO: EPOCH:  4  iter:  520  loss: 1.4555 (1.4446)  coarse_loss: 0.2951 (0.2852)  flow1_loss: 0.3934 (0.3802)  flow2_loss: 0.7670 (0.7793)  <1_pct_cor: 0.9774 (0.9780)  <3_pct_cor: 0.9948 (0.9954)  <1_pct_flow1: 0.9655 (0.9665)  <3_pct_flow1: 0.9945 (0.9949)  <1_pct_flow2: 0.8908 (0.8865)  <3_pct_flow2: 0.9858 (0.9854)  time: 1.3312 (1.3320)  data: 0.0359 (0.0393)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:01:57,959 fastmvsnet.train INFO: EPOCH:  4  iter:  530  loss: 1.4047 (1.4424)  coarse_loss: 0.2847 (0.2849)  flow1_loss: 0.3796 (0.3798)  flow2_loss: 0.7404 (0.7777)  <1_pct_cor: 0.9773 (0.9781)  <3_pct_cor: 0.9947 (0.9954)  <1_pct_flow1: 0.9671 (0.9666)  <3_pct_flow1: 0.9941 (0.9949)  <1_pct_flow2: 0.8976 (0.8867)  <3_pct_flow2: 0.9857 (0.9855)  time: 1.3334 (1.3320)  data: 0.0360 (0.0393)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:02:11,337 fastmvsnet.train INFO: EPOCH:  4  iter:  540  loss: 1.3105 (1.4397)  coarse_loss: 0.2641 (0.2844)  flow1_loss: 0.3522 (0.3792)  flow2_loss: 0.6942 (0.7761)  <1_pct_cor: 0.9810 (0.9781)  <3_pct_cor: 0.9959 (0.9954)  <1_pct_flow1: 0.9719 (0.9667)  <3_pct_flow1: 0.9954 (0.9949)  <1_pct_flow2: 0.9070 (0.8872)  <3_pct_flow2: 0.9877 (0.9855)  time: 1.3354 (1.3321)  data: 0.0362 (0.0392)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:02:24,681 fastmvsnet.train INFO: EPOCH:  4  iter:  550  loss: 1.4224 (1.4417)  coarse_loss: 0.2859 (0.2849)  flow1_loss: 0.3812 (0.3799)  flow2_loss: 0.7552 (0.7769)  <1_pct_cor: 0.9769 (0.9780)  <3_pct_cor: 0.9952 (0.9954)  <1_pct_flow1: 0.9653 (0.9665)  <3_pct_flow1: 0.9949 (0.9949)  <1_pct_flow2: 0.8930 (0.8869)  <3_pct_flow2: 0.9850 (0.9854)  time: 1.3361 (1.3321)  data: 0.0364 (0.0391)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:02:38,057 fastmvsnet.train INFO: EPOCH:  4  iter:  560  loss: 1.4902 (1.4415)  coarse_loss: 0.3005 (0.2850)  flow1_loss: 0.4007 (0.3799)  flow2_loss: 0.7890 (0.7766)  <1_pct_cor: 0.9755 (0.9781)  <3_pct_cor: 0.9950 (0.9954)  <1_pct_flow1: 0.9614 (0.9665)  <3_pct_flow1: 0.9945 (0.9949)  <1_pct_flow2: 0.8797 (0.8869)  <3_pct_flow2: 0.9840 (0.9855)  time: 1.3360 (1.3322)  data: 0.0362 (0.0391)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:02:51,388 fastmvsnet.train INFO: EPOCH:  4  iter:  570  loss: 1.4834 (1.4431)  coarse_loss: 0.2990 (0.2854)  flow1_loss: 0.3986 (0.3805)  flow2_loss: 0.7859 (0.7772)  <1_pct_cor: 0.9773 (0.9780)  <3_pct_cor: 0.9950 (0.9954)  <1_pct_flow1: 0.9649 (0.9665)  <3_pct_flow1: 0.9943 (0.9949)  <1_pct_flow2: 0.8828 (0.8868)  <3_pct_flow2: 0.9853 (0.9854)  time: 1.3354 (1.3322)  data: 0.0362 (0.0390)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:03:04,767 fastmvsnet.train INFO: EPOCH:  4  iter:  580  loss: 1.5046 (1.4436)  coarse_loss: 0.3032 (0.2856)  flow1_loss: 0.4042 (0.3808)  flow2_loss: 0.7972 (0.7773)  <1_pct_cor: 0.9764 (0.9780)  <3_pct_cor: 0.9948 (0.9954)  <1_pct_flow1: 0.9657 (0.9665)  <3_pct_flow1: 0.9944 (0.9949)  <1_pct_flow2: 0.8901 (0.8871)  <3_pct_flow2: 0.9845 (0.9854)  time: 1.3355 (1.3323)  data: 0.0363 (0.0390)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:03:18,114 fastmvsnet.train INFO: EPOCH:  4  iter:  590  loss: 1.3944 (1.4415)  coarse_loss: 0.2808 (0.2852)  flow1_loss: 0.3743 (0.3803)  flow2_loss: 0.7393 (0.7759)  <1_pct_cor: 0.9796 (0.9781)  <3_pct_cor: 0.9955 (0.9954)  <1_pct_flow1: 0.9696 (0.9666)  <3_pct_flow1: 0.9952 (0.9949)  <1_pct_flow2: 0.9000 (0.8872)  <3_pct_flow2: 0.9868 (0.9855)  time: 1.3363 (1.3324)  data: 0.0360 (0.0389)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:03:31,528 fastmvsnet.train INFO: EPOCH:  4  iter:  600  loss: 1.3708 (1.4412)  coarse_loss: 0.2771 (0.2853)  flow1_loss: 0.3694 (0.3804)  flow2_loss: 0.7244 (0.7755)  <1_pct_cor: 0.9808 (0.9781)  <3_pct_cor: 0.9960 (0.9954)  <1_pct_flow1: 0.9702 (0.9666)  <3_pct_flow1: 0.9953 (0.9949)  <1_pct_flow2: 0.8978 (0.8874)  <3_pct_flow2: 0.9876 (0.9855)  time: 1.3381 (1.3325)  data: 0.0363 (0.0389)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:03:44,911 fastmvsnet.train INFO: EPOCH:  4  iter:  610  loss: 1.4636 (1.4422)  coarse_loss: 0.2964 (0.2856)  flow1_loss: 0.3952 (0.3808)  flow2_loss: 0.7720 (0.7758)  <1_pct_cor: 0.9786 (0.9781)  <3_pct_cor: 0.9955 (0.9954)  <1_pct_flow1: 0.9663 (0.9666)  <3_pct_flow1: 0.9949 (0.9949)  <1_pct_flow2: 0.8877 (0.8873)  <3_pct_flow2: 0.9862 (0.9855)  time: 1.3399 (1.3326)  data: 0.0365 (0.0389)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:03:58,267 fastmvsnet.train INFO: EPOCH:  4  iter:  620  loss: 1.4278 (1.4408)  coarse_loss: 0.2888 (0.2854)  flow1_loss: 0.3850 (0.3805)  flow2_loss: 0.7540 (0.7748)  <1_pct_cor: 0.9799 (0.9781)  <3_pct_cor: 0.9959 (0.9954)  <1_pct_flow1: 0.9679 (0.9667)  <3_pct_flow1: 0.9954 (0.9949)  <1_pct_flow2: 0.8910 (0.8875)  <3_pct_flow2: 0.9869 (0.9855)  time: 1.3369 (1.3327)  data: 0.0362 (0.0388)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:04:11,597 fastmvsnet.train INFO: EPOCH:  4  iter:  630  loss: 1.3642 (1.4397)  coarse_loss: 0.2769 (0.2853)  flow1_loss: 0.3692 (0.3804)  flow2_loss: 0.7180 (0.7740)  <1_pct_cor: 0.9815 (0.9782)  <3_pct_cor: 0.9963 (0.9954)  <1_pct_flow1: 0.9705 (0.9667)  <3_pct_flow1: 0.9957 (0.9949)  <1_pct_flow2: 0.8998 (0.8877)  <3_pct_flow2: 0.9879 (0.9856)  time: 1.3343 (1.3327)  data: 0.0360 (0.0388)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:04:24,928 fastmvsnet.train INFO: EPOCH:  4  iter:  640  loss: 1.4121 (1.4399)  coarse_loss: 0.2867 (0.2854)  flow1_loss: 0.3823 (0.3806)  flow2_loss: 0.7432 (0.7738)  <1_pct_cor: 0.9791 (0.9782)  <3_pct_cor: 0.9948 (0.9954)  <1_pct_flow1: 0.9682 (0.9667)  <3_pct_flow1: 0.9947 (0.9949)  <1_pct_flow2: 0.8972 (0.8878)  <3_pct_flow2: 0.9871 (0.9856)  time: 1.3331 (1.3327)  data: 0.0361 (0.0387)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:04:38,331 fastmvsnet.train INFO: EPOCH:  4  iter:  650  loss: 1.4286 (1.4394)  coarse_loss: 0.2893 (0.2855)  flow1_loss: 0.3858 (0.3806)  flow2_loss: 0.7534 (0.7733)  <1_pct_cor: 0.9760 (0.9781)  <3_pct_cor: 0.9944 (0.9954)  <1_pct_flow1: 0.9653 (0.9667)  <3_pct_flow1: 0.9940 (0.9949)  <1_pct_flow2: 0.8985 (0.8880)  <3_pct_flow2: 0.9848 (0.9856)  time: 1.3367 (1.3328)  data: 0.0360 (0.0387)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:04:51,658 fastmvsnet.train INFO: EPOCH:  4  iter:  660  loss: 1.5002 (1.4417)  coarse_loss: 0.3043 (0.2860)  flow1_loss: 0.4058 (0.3814)  flow2_loss: 0.7901 (0.7743)  <1_pct_cor: 0.9723 (0.9780)  <3_pct_cor: 0.9941 (0.9954)  <1_pct_flow1: 0.9608 (0.9665)  <3_pct_flow1: 0.9932 (0.9948)  <1_pct_flow2: 0.8955 (0.8881)  <3_pct_flow2: 0.9819 (0.9855)  time: 1.3365 (1.3328)  data: 0.0361 (0.0386)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:05:05,032 fastmvsnet.train INFO: EPOCH:  4  iter:  670  loss: 1.5421 (1.4425)  coarse_loss: 0.3132 (0.2863)  flow1_loss: 0.4176 (0.3817)  flow2_loss: 0.8113 (0.7745)  <1_pct_cor: 0.9729 (0.9780)  <3_pct_cor: 0.9937 (0.9953)  <1_pct_flow1: 0.9614 (0.9665)  <3_pct_flow1: 0.9934 (0.9948)  <1_pct_flow2: 0.8906 (0.8881)  <3_pct_flow2: 0.9825 (0.9855)  time: 1.3350 (1.3329)  data: 0.0362 (0.0386)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:05:18,358 fastmvsnet.train INFO: EPOCH:  4  iter:  680  loss: 1.4127 (1.4409)  coarse_loss: 0.2879 (0.2861)  flow1_loss: 0.3839 (0.3814)  flow2_loss: 0.7410 (0.7734)  <1_pct_cor: 0.9783 (0.9780)  <3_pct_cor: 0.9953 (0.9954)  <1_pct_flow1: 0.9676 (0.9666)  <3_pct_flow1: 0.9949 (0.9948)  <1_pct_flow2: 0.8973 (0.8883)  <3_pct_flow2: 0.9858 (0.9855)  time: 1.3350 (1.3329)  data: 0.0362 (0.0386)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:05:31,682 fastmvsnet.train INFO: EPOCH:  4  iter:  690  loss: 1.3430 (1.4396)  coarse_loss: 0.2730 (0.2859)  flow1_loss: 0.3641 (0.3812)  flow2_loss: 0.7059 (0.7725)  <1_pct_cor: 0.9800 (0.9780)  <3_pct_cor: 0.9962 (0.9954)  <1_pct_flow1: 0.9695 (0.9666)  <3_pct_flow1: 0.9956 (0.9949)  <1_pct_flow2: 0.9013 (0.8885)  <3_pct_flow2: 0.9868 (0.9855)  time: 1.3325 (1.3329)  data: 0.0361 (0.0385)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:05:45,004 fastmvsnet.train INFO: EPOCH:  4  iter:  700  loss: 1.3569 (1.4385)  coarse_loss: 0.2750 (0.2858)  flow1_loss: 0.3667 (0.3810)  flow2_loss: 0.7152 (0.7717)  <1_pct_cor: 0.9807 (0.9781)  <3_pct_cor: 0.9960 (0.9954)  <1_pct_flow1: 0.9697 (0.9667)  <3_pct_flow1: 0.9957 (0.9949)  <1_pct_flow2: 0.8993 (0.8886)  <3_pct_flow2: 0.9877 (0.9856)  time: 1.3323 (1.3328)  data: 0.0361 (0.0385)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:05:58,380 fastmvsnet.train INFO: EPOCH:  4  iter:  710  loss: 1.3711 (1.4377)  coarse_loss: 0.2784 (0.2857)  flow1_loss: 0.3712 (0.3809)  flow2_loss: 0.7216 (0.7711)  <1_pct_cor: 0.9807 (0.9781)  <3_pct_cor: 0.9959 (0.9954)  <1_pct_flow1: 0.9691 (0.9667)  <3_pct_flow1: 0.9957 (0.9949)  <1_pct_flow2: 0.8988 (0.8887)  <3_pct_flow2: 0.9879 (0.9856)  time: 1.3349 (1.3329)  data: 0.0362 (0.0385)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:06:11,777 fastmvsnet.train INFO: EPOCH:  4  iter:  720  loss: 1.3214 (1.4352)  coarse_loss: 0.2681 (0.2853)  flow1_loss: 0.3575 (0.3804)  flow2_loss: 0.6958 (0.7696)  <1_pct_cor: 0.9815 (0.9782)  <3_pct_cor: 0.9965 (0.9954)  <1_pct_flow1: 0.9704 (0.9668)  <3_pct_flow1: 0.9962 (0.9949)  <1_pct_flow2: 0.9036 (0.8891)  <3_pct_flow2: 0.9879 (0.9856)  time: 1.3386 (1.3330)  data: 0.0360 (0.0384)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:06:25,184 fastmvsnet.train INFO: EPOCH:  4  iter:  730  loss: 1.4900 (1.4391)  coarse_loss: 0.3022 (0.2861)  flow1_loss: 0.4029 (0.3815)  flow2_loss: 0.7849 (0.7714)  <1_pct_cor: 0.9729 (0.9780)  <3_pct_cor: 0.9948 (0.9954)  <1_pct_flow1: 0.9594 (0.9665)  <3_pct_flow1: 0.9938 (0.9949)  <1_pct_flow2: 0.8834 (0.8886)  <3_pct_flow2: 0.9818 (0.9855)  time: 1.3402 (1.3331)  data: 0.0361 (0.0384)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:06:38,506 fastmvsnet.train INFO: EPOCH:  4  iter:  740  loss: 1.5519 (1.4384)  coarse_loss: 0.3150 (0.2861)  flow1_loss: 0.4200 (0.3814)  flow2_loss: 0.8169 (0.7709)  <1_pct_cor: 0.9708 (0.9780)  <3_pct_cor: 0.9941 (0.9954)  <1_pct_flow1: 0.9569 (0.9665)  <3_pct_flow1: 0.9935 (0.9949)  <1_pct_flow2: 0.8794 (0.8888)  <3_pct_flow2: 0.9807 (0.9855)  time: 1.3365 (1.3331)  data: 0.0362 (0.0384)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:06:51,840 fastmvsnet.train INFO: EPOCH:  4  iter:  750  loss: 1.3792 (1.4375)  coarse_loss: 0.2793 (0.2860)  flow1_loss: 0.3723 (0.3813)  flow2_loss: 0.7276 (0.7703)  <1_pct_cor: 0.9810 (0.9780)  <3_pct_cor: 0.9957 (0.9954)  <1_pct_flow1: 0.9713 (0.9666)  <3_pct_flow1: 0.9961 (0.9949)  <1_pct_flow2: 0.9041 (0.8890)  <3_pct_flow2: 0.9881 (0.9855)  time: 1.3328 (1.3331)  data: 0.0364 (0.0384)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:07:05,248 fastmvsnet.train INFO: EPOCH:  4  iter:  760  loss: 1.3960 (1.4373)  coarse_loss: 0.2828 (0.2860)  flow1_loss: 0.3771 (0.3813)  flow2_loss: 0.7361 (0.7700)  <1_pct_cor: 0.9817 (0.9781)  <3_pct_cor: 0.9961 (0.9954)  <1_pct_flow1: 0.9715 (0.9666)  <3_pct_flow1: 0.9962 (0.9949)  <1_pct_flow2: 0.8989 (0.8891)  <3_pct_flow2: 0.9884 (0.9856)  time: 1.3371 (1.3332)  data: 0.0363 (0.0383)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:07:18,583 fastmvsnet.train INFO: EPOCH:  4  iter:  770  loss: 1.3611 (1.4355)  coarse_loss: 0.2769 (0.2857)  flow1_loss: 0.3692 (0.3810)  flow2_loss: 0.7150 (0.7688)  <1_pct_cor: 0.9810 (0.9781)  <3_pct_cor: 0.9967 (0.9954)  <1_pct_flow1: 0.9687 (0.9666)  <3_pct_flow1: 0.9963 (0.9949)  <1_pct_flow2: 0.8925 (0.8891)  <3_pct_flow2: 0.9876 (0.9856)  time: 1.3372 (1.3332)  data: 0.0362 (0.0383)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:07:31,977 fastmvsnet.train INFO: EPOCH:  4  iter:  780  loss: 1.3581 (1.4352)  coarse_loss: 0.2756 (0.2857)  flow1_loss: 0.3675 (0.3810)  flow2_loss: 0.7150 (0.7686)  <1_pct_cor: 0.9794 (0.9781)  <3_pct_cor: 0.9960 (0.9954)  <1_pct_flow1: 0.9672 (0.9666)  <3_pct_flow1: 0.9953 (0.9949)  <1_pct_flow2: 0.8944 (0.8892)  <3_pct_flow2: 0.9866 (0.9856)  time: 1.3365 (1.3333)  data: 0.0362 (0.0383)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:07:45,373 fastmvsnet.train INFO: EPOCH:  4  iter:  790  loss: 1.3724 (1.4339)  coarse_loss: 0.2783 (0.2855)  flow1_loss: 0.3711 (0.3807)  flow2_loss: 0.7230 (0.7677)  <1_pct_cor: 0.9785 (0.9781)  <3_pct_cor: 0.9957 (0.9954)  <1_pct_flow1: 0.9667 (0.9666)  <3_pct_flow1: 0.9951 (0.9949)  <1_pct_flow2: 0.8997 (0.8894)  <3_pct_flow2: 0.9860 (0.9856)  time: 1.3395 (1.3334)  data: 0.0362 (0.0382)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:07:58,689 fastmvsnet.train INFO: EPOCH:  4  iter:  800  loss: 1.3643 (1.4335)  coarse_loss: 0.2778 (0.2855)  flow1_loss: 0.3704 (0.3807)  flow2_loss: 0.7161 (0.7672)  <1_pct_cor: 0.9792 (0.9781)  <3_pct_cor: 0.9959 (0.9954)  <1_pct_flow1: 0.9676 (0.9667)  <3_pct_flow1: 0.9952 (0.9949)  <1_pct_flow2: 0.9000 (0.8895)  <3_pct_flow2: 0.9864 (0.9856)  time: 1.3355 (1.3333)  data: 0.0362 (0.0382)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:08:12,032 fastmvsnet.train INFO: EPOCH:  4  iter:  810  loss: 1.3730 (1.4324)  coarse_loss: 0.2806 (0.2854)  flow1_loss: 0.3742 (0.3805)  flow2_loss: 0.7182 (0.7665)  <1_pct_cor: 0.9798 (0.9782)  <3_pct_cor: 0.9959 (0.9954)  <1_pct_flow1: 0.9686 (0.9667)  <3_pct_flow1: 0.9952 (0.9949)  <1_pct_flow2: 0.8989 (0.8896)  <3_pct_flow2: 0.9870 (0.9856)  time: 1.3329 (1.3334)  data: 0.0362 (0.0382)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:08:25,375 fastmvsnet.train INFO: EPOCH:  4  iter:  820  loss: 1.3942 (1.4325)  coarse_loss: 0.2854 (0.2855)  flow1_loss: 0.3806 (0.3807)  flow2_loss: 0.7282 (0.7663)  <1_pct_cor: 0.9795 (0.9782)  <3_pct_cor: 0.9956 (0.9954)  <1_pct_flow1: 0.9682 (0.9667)  <3_pct_flow1: 0.9957 (0.9949)  <1_pct_flow2: 0.8966 (0.8896)  <3_pct_flow2: 0.9870 (0.9856)  time: 1.3343 (1.3334)  data: 0.0362 (0.0382)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:08:38,713 fastmvsnet.train INFO: EPOCH:  4  iter:  830  loss: 1.3868 (1.4313)  coarse_loss: 0.2828 (0.2853)  flow1_loss: 0.3771 (0.3805)  flow2_loss: 0.7269 (0.7655)  <1_pct_cor: 0.9798 (0.9782)  <3_pct_cor: 0.9954 (0.9954)  <1_pct_flow1: 0.9691 (0.9668)  <3_pct_flow1: 0.9957 (0.9949)  <1_pct_flow2: 0.8980 (0.8898)  <3_pct_flow2: 0.9874 (0.9857)  time: 1.3340 (1.3334)  data: 0.0362 (0.0381)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:08:52,087 fastmvsnet.train INFO: EPOCH:  4  iter:  840  loss: 1.3869 (1.4314)  coarse_loss: 0.2827 (0.2855)  flow1_loss: 0.3770 (0.3806)  flow2_loss: 0.7272 (0.7654)  <1_pct_cor: 0.9795 (0.9782)  <3_pct_cor: 0.9955 (0.9954)  <1_pct_flow1: 0.9683 (0.9667)  <3_pct_flow1: 0.9953 (0.9949)  <1_pct_flow2: 0.8979 (0.8898)  <3_pct_flow2: 0.9868 (0.9857)  time: 1.3356 (1.3334)  data: 0.0364 (0.0381)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:09:05,468 fastmvsnet.train INFO: EPOCH:  4  iter:  850  loss: 1.4410 (1.4315)  coarse_loss: 0.2937 (0.2855)  flow1_loss: 0.3916 (0.3807)  flow2_loss: 0.7557 (0.7653)  <1_pct_cor: 0.9785 (0.9782)  <3_pct_cor: 0.9952 (0.9954)  <1_pct_flow1: 0.9665 (0.9667)  <3_pct_flow1: 0.9948 (0.9949)  <1_pct_flow2: 0.8898 (0.8898)  <3_pct_flow2: 0.9864 (0.9857)  time: 1.3378 (1.3335)  data: 0.0362 (0.0381)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:09:18,811 fastmvsnet.train INFO: EPOCH:  4  iter:  860  loss: 1.4638 (1.4322)  coarse_loss: 0.2974 (0.2857)  flow1_loss: 0.3966 (0.3810)  flow2_loss: 0.7698 (0.7655)  <1_pct_cor: 0.9763 (0.9782)  <3_pct_cor: 0.9945 (0.9954)  <1_pct_flow1: 0.9647 (0.9667)  <3_pct_flow1: 0.9940 (0.9949)  <1_pct_flow2: 0.8910 (0.8899)  <3_pct_flow2: 0.9850 (0.9857)  time: 1.3362 (1.3335)  data: 0.0361 (0.0381)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:09:32,174 fastmvsnet.train INFO: EPOCH:  4  iter:  870  loss: 1.4431 (1.4318)  coarse_loss: 0.2949 (0.2858)  flow1_loss: 0.3931 (0.3810)  flow2_loss: 0.7551 (0.7650)  <1_pct_cor: 0.9754 (0.9781)  <3_pct_cor: 0.9947 (0.9954)  <1_pct_flow1: 0.9632 (0.9667)  <3_pct_flow1: 0.9942 (0.9949)  <1_pct_flow2: 0.8937 (0.8899)  <3_pct_flow2: 0.9842 (0.9857)  time: 1.3353 (1.3335)  data: 0.0364 (0.0381)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:09:45,568 fastmvsnet.train INFO: EPOCH:  4  iter:  880  loss: 1.3664 (1.4307)  coarse_loss: 0.2797 (0.2856)  flow1_loss: 0.3730 (0.3808)  flow2_loss: 0.7137 (0.7643)  <1_pct_cor: 0.9793 (0.9782)  <3_pct_cor: 0.9962 (0.9954)  <1_pct_flow1: 0.9667 (0.9667)  <3_pct_flow1: 0.9956 (0.9949)  <1_pct_flow2: 0.8920 (0.8899)  <3_pct_flow2: 0.9864 (0.9857)  time: 1.3378 (1.3336)  data: 0.0365 (0.0380)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:09:58,910 fastmvsnet.train INFO: EPOCH:  4  iter:  890  loss: 1.3252 (1.4294)  coarse_loss: 0.2697 (0.2854)  flow1_loss: 0.3595 (0.3805)  flow2_loss: 0.6960 (0.7635)  <1_pct_cor: 0.9808 (0.9782)  <3_pct_cor: 0.9962 (0.9954)  <1_pct_flow1: 0.9706 (0.9668)  <3_pct_flow1: 0.9954 (0.9949)  <1_pct_flow2: 0.9017 (0.8902)  <3_pct_flow2: 0.9873 (0.9857)  time: 1.3368 (1.3336)  data: 0.0363 (0.0380)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:10:12,297 fastmvsnet.train INFO: EPOCH:  4  iter:  900  loss: 1.4321 (1.4307)  coarse_loss: 0.2914 (0.2857)  flow1_loss: 0.3885 (0.3810)  flow2_loss: 0.7522 (0.7640)  <1_pct_cor: 0.9761 (0.9781)  <3_pct_cor: 0.9947 (0.9954)  <1_pct_flow1: 0.9648 (0.9666)  <3_pct_flow1: 0.9939 (0.9949)  <1_pct_flow2: 0.8960 (0.8901)  <3_pct_flow2: 0.9847 (0.9857)  time: 1.3365 (1.3337)  data: 0.0364 (0.0380)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:10:25,698 fastmvsnet.train INFO: EPOCH:  4  iter:  910  loss: 1.4799 (1.4305)  coarse_loss: 0.3013 (0.2857)  flow1_loss: 0.4018 (0.3810)  flow2_loss: 0.7768 (0.7638)  <1_pct_cor: 0.9758 (0.9782)  <3_pct_cor: 0.9946 (0.9954)  <1_pct_flow1: 0.9634 (0.9667)  <3_pct_flow1: 0.9941 (0.9949)  <1_pct_flow2: 0.8875 (0.8901)  <3_pct_flow2: 0.9846 (0.9857)  time: 1.3394 (1.3337)  data: 0.0363 (0.0380)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:10:39,071 fastmvsnet.train INFO: EPOCH:  4  iter:  920  loss: 1.4455 (1.4310)  coarse_loss: 0.2941 (0.2859)  flow1_loss: 0.3921 (0.3812)  flow2_loss: 0.7593 (0.7639)  <1_pct_cor: 0.9771 (0.9781)  <3_pct_cor: 0.9957 (0.9954)  <1_pct_flow1: 0.9640 (0.9666)  <3_pct_flow1: 0.9954 (0.9949)  <1_pct_flow2: 0.8853 (0.8900)  <3_pct_flow2: 0.9850 (0.9856)  time: 1.3387 (1.3338)  data: 0.0361 (0.0380)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:10:52,454 fastmvsnet.train INFO: EPOCH:  4  iter:  930  loss: 1.4731 (1.4314)  coarse_loss: 0.3005 (0.2861)  flow1_loss: 0.4006 (0.3814)  flow2_loss: 0.7720 (0.7640)  <1_pct_cor: 0.9742 (0.9781)  <3_pct_cor: 0.9953 (0.9954)  <1_pct_flow1: 0.9597 (0.9665)  <3_pct_flow1: 0.9947 (0.9949)  <1_pct_flow2: 0.8826 (0.8899)  <3_pct_flow2: 0.9830 (0.9856)  time: 1.3378 (1.3338)  data: 0.0362 (0.0379)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:11:05,874 fastmvsnet.train INFO: EPOCH:  4  iter:  940  loss: 1.4184 (1.4308)  coarse_loss: 0.2900 (0.2860)  flow1_loss: 0.3867 (0.3813)  flow2_loss: 0.7418 (0.7634)  <1_pct_cor: 0.9770 (0.9781)  <3_pct_cor: 0.9949 (0.9954)  <1_pct_flow1: 0.9649 (0.9666)  <3_pct_flow1: 0.9944 (0.9949)  <1_pct_flow2: 0.8966 (0.8901)  <3_pct_flow2: 0.9858 (0.9856)  time: 1.3402 (1.3339)  data: 0.0362 (0.0379)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:11:19,258 fastmvsnet.train INFO: EPOCH:  4  iter:  950  loss: 1.3859 (1.4305)  coarse_loss: 0.2837 (0.2860)  flow1_loss: 0.3782 (0.3814)  flow2_loss: 0.7240 (0.7631)  <1_pct_cor: 0.9805 (0.9781)  <3_pct_cor: 0.9956 (0.9954)  <1_pct_flow1: 0.9694 (0.9666)  <3_pct_flow1: 0.9953 (0.9949)  <1_pct_flow2: 0.9005 (0.8902)  <3_pct_flow2: 0.9878 (0.9857)  time: 1.3402 (1.3339)  data: 0.0361 (0.0379)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:11:32,625 fastmvsnet.train INFO: EPOCH:  4  iter:  960  loss: 1.4346 (1.4308)  coarse_loss: 0.2950 (0.2862)  flow1_loss: 0.3933 (0.3816)  flow2_loss: 0.7463 (0.7631)  <1_pct_cor: 0.9794 (0.9781)  <3_pct_cor: 0.9959 (0.9954)  <1_pct_flow1: 0.9673 (0.9666)  <3_pct_flow1: 0.9953 (0.9949)  <1_pct_flow2: 0.8886 (0.8901)  <3_pct_flow2: 0.9863 (0.9857)  time: 1.3375 (1.3340)  data: 0.0362 (0.0379)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:11:45,995 fastmvsnet.train INFO: EPOCH:  4  iter:  970  loss: 1.5251 (1.4324)  coarse_loss: 0.3115 (0.2865)  flow1_loss: 0.4153 (0.3821)  flow2_loss: 0.7984 (0.7638)  <1_pct_cor: 0.9759 (0.9781)  <3_pct_cor: 0.9950 (0.9954)  <1_pct_flow1: 0.9628 (0.9665)  <3_pct_flow1: 0.9946 (0.9949)  <1_pct_flow2: 0.8781 (0.8899)  <3_pct_flow2: 0.9843 (0.9856)  time: 1.3368 (1.3340)  data: 0.0363 (0.0379)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:11:59,406 fastmvsnet.train INFO: EPOCH:  4  iter:  980  loss: 1.4739 (1.4317)  coarse_loss: 0.2988 (0.2864)  flow1_loss: 0.3984 (0.3819)  flow2_loss: 0.7767 (0.7634)  <1_pct_cor: 0.9767 (0.9781)  <3_pct_cor: 0.9951 (0.9954)  <1_pct_flow1: 0.9635 (0.9665)  <3_pct_flow1: 0.9949 (0.9949)  <1_pct_flow2: 0.8851 (0.8900)  <3_pct_flow2: 0.9850 (0.9856)  time: 1.3390 (1.3341)  data: 0.0362 (0.0379)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:12:12,743 fastmvsnet.train INFO: EPOCH:  4  iter:  990  loss: 1.3453 (1.4307)  coarse_loss: 0.2748 (0.2863)  flow1_loss: 0.3663 (0.3817)  flow2_loss: 0.7042 (0.7626)  <1_pct_cor: 0.9790 (0.9781)  <3_pct_cor: 0.9957 (0.9954)  <1_pct_flow1: 0.9673 (0.9665)  <3_pct_flow1: 0.9951 (0.9949)  <1_pct_flow2: 0.9001 (0.8901)  <3_pct_flow2: 0.9865 (0.9857)  time: 1.3374 (1.3341)  data: 0.0361 (0.0378)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:12:26,096 fastmvsnet.train INFO: EPOCH:  4  iter: 1000  loss: 1.3378 (1.4298)  coarse_loss: 0.2741 (0.2862)  flow1_loss: 0.3655 (0.3816)  flow2_loss: 0.6981 (0.7621)  <1_pct_cor: 0.9793 (0.9781)  <3_pct_cor: 0.9954 (0.9954)  <1_pct_flow1: 0.9691 (0.9666)  <3_pct_flow1: 0.9949 (0.9949)  <1_pct_flow2: 0.9048 (0.8903)  <3_pct_flow2: 0.9870 (0.9857)  time: 1.3345 (1.3341)  data: 0.0362 (0.0378)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:12:40,379 fastmvsnet.train INFO: EPOCH:  4  iter: 1010  loss: 1.3463 (1.4290)  coarse_loss: 0.2743 (0.2861)  flow1_loss: 0.3657 (0.3814)  flow2_loss: 0.7063 (0.7615)  <1_pct_cor: 0.9808 (0.9781)  <3_pct_cor: 0.9960 (0.9954)  <1_pct_flow1: 0.9707 (0.9666)  <3_pct_flow1: 0.9959 (0.9949)  <1_pct_flow2: 0.9019 (0.8903)  <3_pct_flow2: 0.9875 (0.9857)  time: 1.3818 (1.3350)  data: 0.0812 (0.0387)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:12:53,728 fastmvsnet.train INFO: EPOCH:  4  iter: 1020  loss: 1.4790 (1.4308)  coarse_loss: 0.2993 (0.2864)  flow1_loss: 0.3990 (0.3819)  flow2_loss: 0.7807 (0.7624)  <1_pct_cor: 0.9773 (0.9781)  <3_pct_cor: 0.9952 (0.9954)  <1_pct_flow1: 0.9656 (0.9665)  <3_pct_flow1: 0.9949 (0.9949)  <1_pct_flow2: 0.8911 (0.8903)  <3_pct_flow2: 0.9853 (0.9857)  time: 1.3816 (1.3350)  data: 0.0811 (0.0387)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:13:07,082 fastmvsnet.train INFO: EPOCH:  4  iter: 1030  loss: 1.5555 (1.4315)  coarse_loss: 0.3150 (0.2866)  flow1_loss: 0.4200 (0.3822)  flow2_loss: 0.8205 (0.7627)  <1_pct_cor: 0.9748 (0.9781)  <3_pct_cor: 0.9944 (0.9954)  <1_pct_flow1: 0.9623 (0.9665)  <3_pct_flow1: 0.9940 (0.9949)  <1_pct_flow2: 0.8845 (0.8902)  <3_pct_flow2: 0.9841 (0.9857)  time: 1.3351 (1.3350)  data: 0.0361 (0.0386)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:13:20,438 fastmvsnet.train INFO: EPOCH:  4  iter: 1040  loss: 1.4371 (1.4309)  coarse_loss: 0.2928 (0.2866)  flow1_loss: 0.3904 (0.3821)  flow2_loss: 0.7539 (0.7623)  <1_pct_cor: 0.9782 (0.9781)  <3_pct_cor: 0.9957 (0.9954)  <1_pct_flow1: 0.9653 (0.9665)  <3_pct_flow1: 0.9951 (0.9949)  <1_pct_flow2: 0.8910 (0.8903)  <3_pct_flow2: 0.9861 (0.9857)  time: 1.3355 (1.3350)  data: 0.0362 (0.0386)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:13:33,807 fastmvsnet.train INFO: EPOCH:  4  iter: 1050  loss: 1.5240 (1.4332)  coarse_loss: 0.3113 (0.2871)  flow1_loss: 0.4150 (0.3828)  flow2_loss: 0.7976 (0.7633)  <1_pct_cor: 0.9732 (0.9780)  <3_pct_cor: 0.9950 (0.9954)  <1_pct_flow1: 0.9580 (0.9664)  <3_pct_flow1: 0.9940 (0.9949)  <1_pct_flow2: 0.8833 (0.8901)  <3_pct_flow2: 0.9823 (0.9856)  time: 1.3363 (1.3350)  data: 0.0365 (0.0386)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:13:47,163 fastmvsnet.train INFO: EPOCH:  4  iter: 1060  loss: 1.6301 (1.4347)  coarse_loss: 0.3313 (0.2874)  flow1_loss: 0.4417 (0.3832)  flow2_loss: 0.8571 (0.7641)  <1_pct_cor: 0.9700 (0.9779)  <3_pct_cor: 0.9939 (0.9954)  <1_pct_flow1: 0.9555 (0.9663)  <3_pct_flow1: 0.9931 (0.9949)  <1_pct_flow2: 0.8755 (0.8900)  <3_pct_flow2: 0.9801 (0.9856)  time: 1.3363 (1.3350)  data: 0.0366 (0.0386)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:14:00,572 fastmvsnet.train INFO: EPOCH:  4  iter: 1070  loss: 1.4469 (1.4335)  coarse_loss: 0.2929 (0.2872)  flow1_loss: 0.3905 (0.3829)  flow2_loss: 0.7636 (0.7633)  <1_pct_cor: 0.9785 (0.9780)  <3_pct_cor: 0.9956 (0.9954)  <1_pct_flow1: 0.9666 (0.9664)  <3_pct_flow1: 0.9951 (0.9949)  <1_pct_flow2: 0.8917 (0.8901)  <3_pct_flow2: 0.9860 (0.9856)  time: 1.3382 (1.3351)  data: 0.0363 (0.0386)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:14:13,926 fastmvsnet.train INFO: EPOCH:  4  iter: 1080  loss: 1.2522 (1.4313)  coarse_loss: 0.2553 (0.2868)  flow1_loss: 0.3403 (0.3824)  flow2_loss: 0.6566 (0.7621)  <1_pct_cor: 0.9836 (0.9780)  <3_pct_cor: 0.9968 (0.9954)  <1_pct_flow1: 0.9735 (0.9664)  <3_pct_flow1: 0.9963 (0.9949)  <1_pct_flow2: 0.9116 (0.8904)  <3_pct_flow2: 0.9894 (0.9856)  time: 1.3381 (1.3351)  data: 0.0362 (0.0385)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:14:27,315 fastmvsnet.train INFO: EPOCH:  4  iter: 1090  loss: 1.3079 (1.4312)  coarse_loss: 0.2676 (0.2868)  flow1_loss: 0.3567 (0.3825)  flow2_loss: 0.6836 (0.7619)  <1_pct_cor: 0.9813 (0.9781)  <3_pct_cor: 0.9966 (0.9954)  <1_pct_flow1: 0.9707 (0.9665)  <3_pct_flow1: 0.9957 (0.9949)  <1_pct_flow2: 0.9064 (0.8904)  <3_pct_flow2: 0.9876 (0.9856)  time: 1.3372 (1.3351)  data: 0.0361 (0.0385)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:14:40,644 fastmvsnet.train INFO: EPOCH:  4  iter: 1100  loss: 1.4107 (1.4309)  coarse_loss: 0.2887 (0.2869)  flow1_loss: 0.3850 (0.3825)  flow2_loss: 0.7371 (0.7616)  <1_pct_cor: 0.9780 (0.9780)  <3_pct_cor: 0.9960 (0.9954)  <1_pct_flow1: 0.9661 (0.9664)  <3_pct_flow1: 0.9950 (0.9949)  <1_pct_flow2: 0.8946 (0.8905)  <3_pct_flow2: 0.9853 (0.9856)  time: 1.3359 (1.3351)  data: 0.0363 (0.0385)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:14:53,990 fastmvsnet.train INFO: EPOCH:  4  iter: 1110  loss: 1.5893 (1.4340)  coarse_loss: 0.3231 (0.2875)  flow1_loss: 0.4308 (0.3833)  flow2_loss: 0.8354 (0.7632)  <1_pct_cor: 0.9711 (0.9779)  <3_pct_cor: 0.9939 (0.9954)  <1_pct_flow1: 0.9581 (0.9663)  <3_pct_flow1: 0.9931 (0.9949)  <1_pct_flow2: 0.8837 (0.8903)  <3_pct_flow2: 0.9813 (0.9856)  time: 1.3338 (1.3351)  data: 0.0363 (0.0385)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:15:07,413 fastmvsnet.train INFO: EPOCH:  4  iter: 1120  loss: 1.6443 (1.4347)  coarse_loss: 0.3334 (0.2877)  flow1_loss: 0.4446 (0.3836)  flow2_loss: 0.8663 (0.7635)  <1_pct_cor: 0.9687 (0.9779)  <3_pct_cor: 0.9927 (0.9954)  <1_pct_flow1: 0.9557 (0.9662)  <3_pct_flow1: 0.9922 (0.9949)  <1_pct_flow2: 0.8812 (0.8903)  <3_pct_flow2: 0.9802 (0.9855)  time: 1.3385 (1.3352)  data: 0.0362 (0.0385)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:15:20,774 fastmvsnet.train INFO: EPOCH:  4  iter: 1130  loss: 1.5258 (1.4356)  coarse_loss: 0.3102 (0.2879)  flow1_loss: 0.4136 (0.3839)  flow2_loss: 0.8021 (0.7639)  <1_pct_cor: 0.9744 (0.9779)  <3_pct_cor: 0.9944 (0.9954)  <1_pct_flow1: 0.9619 (0.9662)  <3_pct_flow1: 0.9939 (0.9949)  <1_pct_flow2: 0.8880 (0.8903)  <3_pct_flow2: 0.9837 (0.9855)  time: 1.3392 (1.3352)  data: 0.0363 (0.0384)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:15:34,136 fastmvsnet.train INFO: EPOCH:  4  iter: 1140  loss: 1.4906 (1.4357)  coarse_loss: 0.3031 (0.2880)  flow1_loss: 0.4042 (0.3839)  flow2_loss: 0.7833 (0.7638)  <1_pct_cor: 0.9778 (0.9779)  <3_pct_cor: 0.9950 (0.9954)  <1_pct_flow1: 0.9660 (0.9662)  <3_pct_flow1: 0.9949 (0.9949)  <1_pct_flow2: 0.8928 (0.8904)  <3_pct_flow2: 0.9860 (0.9855)  time: 1.3362 (1.3352)  data: 0.0363 (0.0384)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:15:47,518 fastmvsnet.train INFO: EPOCH:  4  iter: 1150  loss: 1.4329 (1.4356)  coarse_loss: 0.2928 (0.2880)  flow1_loss: 0.3905 (0.3840)  flow2_loss: 0.7496 (0.7636)  <1_pct_cor: 0.9784 (0.9779)  <3_pct_cor: 0.9950 (0.9954)  <1_pct_flow1: 0.9673 (0.9662)  <3_pct_flow1: 0.9949 (0.9949)  <1_pct_flow2: 0.8967 (0.8904)  <3_pct_flow2: 0.9864 (0.9855)  time: 1.3372 (1.3352)  data: 0.0360 (0.0384)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:16:01,265 fastmvsnet.train INFO: EPOCH:  4  iter: 1160  loss: 1.3514 (1.4343)  coarse_loss: 0.2759 (0.2877)  flow1_loss: 0.3679 (0.3837)  flow2_loss: 0.7075 (0.7629)  <1_pct_cor: 0.9812 (0.9779)  <3_pct_cor: 0.9960 (0.9954)  <1_pct_flow1: 0.9709 (0.9663)  <3_pct_flow1: 0.9956 (0.9949)  <1_pct_flow2: 0.9020 (0.8906)  <3_pct_flow2: 0.9880 (0.9856)  time: 1.3565 (1.3356)  data: 0.0362 (0.0384)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:16:14,625 fastmvsnet.train INFO: EPOCH:  4  iter: 1170  loss: 1.3856 (1.4347)  coarse_loss: 0.2823 (0.2879)  flow1_loss: 0.3764 (0.3838)  flow2_loss: 0.7268 (0.7630)  <1_pct_cor: 0.9785 (0.9779)  <3_pct_cor: 0.9954 (0.9954)  <1_pct_flow1: 0.9682 (0.9663)  <3_pct_flow1: 0.9947 (0.9949)  <1_pct_flow2: 0.9045 (0.8906)  <3_pct_flow2: 0.9862 (0.9856)  time: 1.3554 (1.3356)  data: 0.0365 (0.0384)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:16:28,022 fastmvsnet.train INFO: EPOCH:  4  iter: 1180  loss: 1.4406 (1.4344)  coarse_loss: 0.2935 (0.2878)  flow1_loss: 0.3914 (0.3838)  flow2_loss: 0.7557 (0.7627)  <1_pct_cor: 0.9752 (0.9779)  <3_pct_cor: 0.9949 (0.9954)  <1_pct_flow1: 0.9640 (0.9663)  <3_pct_flow1: 0.9939 (0.9949)  <1_pct_flow2: 0.8989 (0.8907)  <3_pct_flow2: 0.9836 (0.9856)  time: 1.3378 (1.3356)  data: 0.0364 (0.0383)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:16:41,379 fastmvsnet.train INFO: EPOCH:  4  iter: 1190  loss: 1.4199 (1.4345)  coarse_loss: 0.2885 (0.2879)  flow1_loss: 0.3847 (0.3839)  flow2_loss: 0.7466 (0.7627)  <1_pct_cor: 0.9761 (0.9779)  <3_pct_cor: 0.9947 (0.9954)  <1_pct_flow1: 0.9655 (0.9663)  <3_pct_flow1: 0.9942 (0.9949)  <1_pct_flow2: 0.8983 (0.8908)  <3_pct_flow2: 0.9843 (0.9855)  time: 1.3377 (1.3356)  data: 0.0363 (0.0383)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:16:54,751 fastmvsnet.train INFO: EPOCH:  4  iter: 1200  loss: 1.3547 (1.4331)  coarse_loss: 0.2775 (0.2877)  flow1_loss: 0.3699 (0.3836)  flow2_loss: 0.7073 (0.7618)  <1_pct_cor: 0.9790 (0.9779)  <3_pct_cor: 0.9952 (0.9954)  <1_pct_flow1: 0.9684 (0.9663)  <3_pct_flow1: 0.9951 (0.9949)  <1_pct_flow2: 0.9019 (0.8909)  <3_pct_flow2: 0.9866 (0.9856)  time: 1.3364 (1.3356)  data: 0.0362 (0.0383)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:17:08,111 fastmvsnet.train INFO: EPOCH:  4  iter: 1210  loss: 1.3639 (1.4333)  coarse_loss: 0.2793 (0.2878)  flow1_loss: 0.3724 (0.3837)  flow2_loss: 0.7121 (0.7619)  <1_pct_cor: 0.9800 (0.9779)  <3_pct_cor: 0.9961 (0.9954)  <1_pct_flow1: 0.9681 (0.9663)  <3_pct_flow1: 0.9957 (0.9949)  <1_pct_flow2: 0.8916 (0.8908)  <3_pct_flow2: 0.9867 (0.9856)  time: 1.3366 (1.3356)  data: 0.0362 (0.0383)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:17:21,481 fastmvsnet.train INFO: EPOCH:  4  iter: 1220  loss: 1.4342 (1.4331)  coarse_loss: 0.2930 (0.2878)  flow1_loss: 0.3906 (0.3837)  flow2_loss: 0.7506 (0.7616)  <1_pct_cor: 0.9762 (0.9779)  <3_pct_cor: 0.9954 (0.9954)  <1_pct_flow1: 0.9624 (0.9663)  <3_pct_flow1: 0.9947 (0.9949)  <1_pct_flow2: 0.8833 (0.8908)  <3_pct_flow2: 0.9842 (0.9855)  time: 1.3365 (1.3356)  data: 0.0362 (0.0383)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:17:34,817 fastmvsnet.train INFO: EPOCH:  4  iter: 1230  loss: 1.3702 (1.4323)  coarse_loss: 0.2812 (0.2876)  flow1_loss: 0.3749 (0.3835)  flow2_loss: 0.7141 (0.7611)  <1_pct_cor: 0.9779 (0.9779)  <3_pct_cor: 0.9954 (0.9954)  <1_pct_flow1: 0.9650 (0.9663)  <3_pct_flow1: 0.9947 (0.9949)  <1_pct_flow2: 0.8953 (0.8908)  <3_pct_flow2: 0.9859 (0.9856)  time: 1.3353 (1.3356)  data: 0.0363 (0.0383)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:17:48,188 fastmvsnet.train INFO: EPOCH:  4  iter: 1240  loss: 1.3258 (1.4313)  coarse_loss: 0.2721 (0.2875)  flow1_loss: 0.3628 (0.3833)  flow2_loss: 0.6909 (0.7605)  <1_pct_cor: 0.9813 (0.9779)  <3_pct_cor: 0.9959 (0.9954)  <1_pct_flow1: 0.9703 (0.9663)  <3_pct_flow1: 0.9955 (0.9949)  <1_pct_flow2: 0.9020 (0.8909)  <3_pct_flow2: 0.9883 (0.9856)  time: 1.3354 (1.3356)  data: 0.0364 (0.0382)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:18:01,518 fastmvsnet.train INFO: EPOCH:  4  iter: 1250  loss: 1.4084 (1.4319)  coarse_loss: 0.2888 (0.2877)  flow1_loss: 0.3851 (0.3836)  flow2_loss: 0.7345 (0.7607)  <1_pct_cor: 0.9796 (0.9779)  <3_pct_cor: 0.9957 (0.9954)  <1_pct_flow1: 0.9677 (0.9663)  <3_pct_flow1: 0.9953 (0.9949)  <1_pct_flow2: 0.8989 (0.8910)  <3_pct_flow2: 0.9871 (0.9856)  time: 1.3351 (1.3356)  data: 0.0364 (0.0382)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:18:14,899 fastmvsnet.train INFO: EPOCH:  4  iter: 1260  loss: 1.4110 (1.4310)  coarse_loss: 0.2887 (0.2875)  flow1_loss: 0.3849 (0.3834)  flow2_loss: 0.7374 (0.7601)  <1_pct_cor: 0.9803 (0.9780)  <3_pct_cor: 0.9960 (0.9954)  <1_pct_flow1: 0.9686 (0.9664)  <3_pct_flow1: 0.9954 (0.9949)  <1_pct_flow2: 0.9018 (0.8911)  <3_pct_flow2: 0.9875 (0.9856)  time: 1.3356 (1.3356)  data: 0.0364 (0.0382)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:18:28,234 fastmvsnet.train INFO: EPOCH:  4  iter: 1270  loss: 1.3847 (1.4312)  coarse_loss: 0.2831 (0.2876)  flow1_loss: 0.3775 (0.3835)  flow2_loss: 0.7241 (0.7601)  <1_pct_cor: 0.9812 (0.9780)  <3_pct_cor: 0.9961 (0.9954)  <1_pct_flow1: 0.9700 (0.9664)  <3_pct_flow1: 0.9960 (0.9949)  <1_pct_flow2: 0.8995 (0.8911)  <3_pct_flow2: 0.9880 (0.9856)  time: 1.3358 (1.3356)  data: 0.0363 (0.0382)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:18:41,566 fastmvsnet.train INFO: EPOCH:  4  iter: 1280  loss: 1.5025 (1.4321)  coarse_loss: 0.3065 (0.2878)  flow1_loss: 0.4086 (0.3838)  flow2_loss: 0.7874 (0.7605)  <1_pct_cor: 0.9760 (0.9779)  <3_pct_cor: 0.9943 (0.9954)  <1_pct_flow1: 0.9644 (0.9663)  <3_pct_flow1: 0.9947 (0.9949)  <1_pct_flow2: 0.8944 (0.8912)  <3_pct_flow2: 0.9852 (0.9856)  time: 1.3334 (1.3356)  data: 0.0363 (0.0382)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:18:54,921 fastmvsnet.train INFO: EPOCH:  4  iter: 1290  loss: 1.5261 (1.4326)  coarse_loss: 0.3110 (0.2880)  flow1_loss: 0.4147 (0.3839)  flow2_loss: 0.8004 (0.7607)  <1_pct_cor: 0.9746 (0.9779)  <3_pct_cor: 0.9940 (0.9954)  <1_pct_flow1: 0.9639 (0.9663)  <3_pct_flow1: 0.9943 (0.9949)  <1_pct_flow2: 0.8986 (0.8912)  <3_pct_flow2: 0.9842 (0.9856)  time: 1.3344 (1.3356)  data: 0.0363 (0.0382)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:19:08,305 fastmvsnet.train INFO: EPOCH:  4  iter: 1300  loss: 1.3598 (1.4310)  coarse_loss: 0.2772 (0.2877)  flow1_loss: 0.3696 (0.3835)  flow2_loss: 0.7130 (0.7598)  <1_pct_cor: 0.9801 (0.9780)  <3_pct_cor: 0.9960 (0.9954)  <1_pct_flow1: 0.9701 (0.9664)  <3_pct_flow1: 0.9956 (0.9949)  <1_pct_flow2: 0.9042 (0.8914)  <3_pct_flow2: 0.9868 (0.9856)  time: 1.3370 (1.3356)  data: 0.0362 (0.0382)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:19:21,729 fastmvsnet.train INFO: EPOCH:  4  iter: 1310  loss: 1.2332 (1.4296)  coarse_loss: 0.2528 (0.2874)  flow1_loss: 0.3370 (0.3832)  flow2_loss: 0.6433 (0.7590)  <1_pct_cor: 0.9839 (0.9780)  <3_pct_cor: 0.9972 (0.9954)  <1_pct_flow1: 0.9737 (0.9664)  <3_pct_flow1: 0.9964 (0.9949)  <1_pct_flow2: 0.9118 (0.8915)  <3_pct_flow2: 0.9890 (0.9857)  time: 1.3404 (1.3357)  data: 0.0365 (0.0381)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:19:35,067 fastmvsnet.train INFO: EPOCH:  4  iter: 1320  loss: 1.3243 (1.4294)  coarse_loss: 0.2720 (0.2874)  flow1_loss: 0.3627 (0.3832)  flow2_loss: 0.6897 (0.7588)  <1_pct_cor: 0.9806 (0.9780)  <3_pct_cor: 0.9964 (0.9954)  <1_pct_flow1: 0.9691 (0.9664)  <3_pct_flow1: 0.9959 (0.9949)  <1_pct_flow2: 0.9056 (0.8916)  <3_pct_flow2: 0.9871 (0.9857)  time: 1.3381 (1.3356)  data: 0.0365 (0.0381)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:19:48,414 fastmvsnet.train INFO: EPOCH:  4  iter: 1330  loss: 1.3787 (1.4288)  coarse_loss: 0.2835 (0.2874)  flow1_loss: 0.3780 (0.3831)  flow2_loss: 0.7172 (0.7583)  <1_pct_cor: 0.9795 (0.9780)  <3_pct_cor: 0.9958 (0.9954)  <1_pct_flow1: 0.9670 (0.9664)  <3_pct_flow1: 0.9953 (0.9949)  <1_pct_flow2: 0.8974 (0.8916)  <3_pct_flow2: 0.9870 (0.9857)  time: 1.3342 (1.3356)  data: 0.0363 (0.0381)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:20:01,768 fastmvsnet.train INFO: EPOCH:  4  iter: 1340  loss: 1.3508 (1.4282)  coarse_loss: 0.2770 (0.2873)  flow1_loss: 0.3693 (0.3830)  flow2_loss: 0.7045 (0.7579)  <1_pct_cor: 0.9794 (0.9780)  <3_pct_cor: 0.9959 (0.9954)  <1_pct_flow1: 0.9672 (0.9664)  <3_pct_flow1: 0.9954 (0.9949)  <1_pct_flow2: 0.8988 (0.8917)  <3_pct_flow2: 0.9868 (0.9857)  time: 1.3350 (1.3356)  data: 0.0364 (0.0381)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:20:15,123 fastmvsnet.train INFO: EPOCH:  4  iter: 1350  loss: 1.3982 (1.4284)  coarse_loss: 0.2857 (0.2873)  flow1_loss: 0.3810 (0.3831)  flow2_loss: 0.7315 (0.7579)  <1_pct_cor: 0.9773 (0.9780)  <3_pct_cor: 0.9951 (0.9954)  <1_pct_flow1: 0.9654 (0.9664)  <3_pct_flow1: 0.9949 (0.9949)  <1_pct_flow2: 0.8965 (0.8917)  <3_pct_flow2: 0.9856 (0.9857)  time: 1.3354 (1.3356)  data: 0.0367 (0.0381)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:20:28,515 fastmvsnet.train INFO: EPOCH:  4  iter: 1360  loss: 1.4003 (1.4278)  coarse_loss: 0.2878 (0.2873)  flow1_loss: 0.3837 (0.3830)  flow2_loss: 0.7287 (0.7575)  <1_pct_cor: 0.9778 (0.9780)  <3_pct_cor: 0.9951 (0.9954)  <1_pct_flow1: 0.9666 (0.9664)  <3_pct_flow1: 0.9946 (0.9949)  <1_pct_flow2: 0.8996 (0.8918)  <3_pct_flow2: 0.9858 (0.9857)  time: 1.3374 (1.3357)  data: 0.0367 (0.0381)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:20:41,839 fastmvsnet.train INFO: EPOCH:  4  iter: 1370  loss: 1.3373 (1.4271)  coarse_loss: 0.2759 (0.2872)  flow1_loss: 0.3679 (0.3829)  flow2_loss: 0.6935 (0.7570)  <1_pct_cor: 0.9785 (0.9780)  <3_pct_cor: 0.9954 (0.9954)  <1_pct_flow1: 0.9691 (0.9665)  <3_pct_flow1: 0.9947 (0.9949)  <1_pct_flow2: 0.9136 (0.8920)  <3_pct_flow2: 0.9860 (0.9857)  time: 1.3358 (1.3356)  data: 0.0362 (0.0381)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:20:55,232 fastmvsnet.train INFO: EPOCH:  4  iter: 1380  loss: 1.2814 (1.4257)  coarse_loss: 0.2655 (0.2870)  flow1_loss: 0.3539 (0.3826)  flow2_loss: 0.6620 (0.7561)  <1_pct_cor: 0.9811 (0.9781)  <3_pct_cor: 0.9960 (0.9954)  <1_pct_flow1: 0.9722 (0.9665)  <3_pct_flow1: 0.9956 (0.9949)  <1_pct_flow2: 0.9168 (0.8922)  <3_pct_flow2: 0.9880 (0.9857)  time: 1.3358 (1.3357)  data: 0.0362 (0.0381)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:21:08,589 fastmvsnet.train INFO: EPOCH:  4  iter: 1390  loss: 1.2457 (1.4244)  coarse_loss: 0.2578 (0.2867)  flow1_loss: 0.3438 (0.3823)  flow2_loss: 0.6440 (0.7554)  <1_pct_cor: 0.9844 (0.9781)  <3_pct_cor: 0.9970 (0.9954)  <1_pct_flow1: 0.9750 (0.9666)  <3_pct_flow1: 0.9966 (0.9949)  <1_pct_flow2: 0.9114 (0.8923)  <3_pct_flow2: 0.9899 (0.9857)  time: 1.3375 (1.3357)  data: 0.0364 (0.0380)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:21:21,949 fastmvsnet.train INFO: EPOCH:  4  iter: 1400  loss: 1.3096 (1.4240)  coarse_loss: 0.2686 (0.2867)  flow1_loss: 0.3581 (0.3823)  flow2_loss: 0.6829 (0.7551)  <1_pct_cor: 0.9826 (0.9781)  <3_pct_cor: 0.9962 (0.9954)  <1_pct_flow1: 0.9729 (0.9666)  <3_pct_flow1: 0.9958 (0.9949)  <1_pct_flow2: 0.9061 (0.8924)  <3_pct_flow2: 0.9889 (0.9858)  time: 1.3358 (1.3357)  data: 0.0364 (0.0380)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:21:35,310 fastmvsnet.train INFO: EPOCH:  4  iter: 1410  loss: 1.5333 (1.4260)  coarse_loss: 0.3121 (0.2871)  flow1_loss: 0.4161 (0.3828)  flow2_loss: 0.8050 (0.7561)  <1_pct_cor: 0.9756 (0.9781)  <3_pct_cor: 0.9940 (0.9954)  <1_pct_flow1: 0.9640 (0.9665)  <3_pct_flow1: 0.9938 (0.9949)  <1_pct_flow2: 0.8936 (0.8923)  <3_pct_flow2: 0.9850 (0.9857)  time: 1.3360 (1.3357)  data: 0.0363 (0.0380)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:21:48,659 fastmvsnet.train INFO: EPOCH:  4  iter: 1420  loss: 1.5551 (1.4259)  coarse_loss: 0.3165 (0.2871)  flow1_loss: 0.4220 (0.3828)  flow2_loss: 0.8165 (0.7560)  <1_pct_cor: 0.9754 (0.9781)  <3_pct_cor: 0.9941 (0.9954)  <1_pct_flow1: 0.9632 (0.9666)  <3_pct_flow1: 0.9937 (0.9949)  <1_pct_flow2: 0.8913 (0.8924)  <3_pct_flow2: 0.9848 (0.9857)  time: 1.3355 (1.3357)  data: 0.0363 (0.0380)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:22:02,008 fastmvsnet.train INFO: EPOCH:  4  iter: 1430  loss: 1.3643 (1.4251)  coarse_loss: 0.2794 (0.2870)  flow1_loss: 0.3726 (0.3827)  flow2_loss: 0.7122 (0.7555)  <1_pct_cor: 0.9808 (0.9781)  <3_pct_cor: 0.9959 (0.9954)  <1_pct_flow1: 0.9698 (0.9666)  <3_pct_flow1: 0.9954 (0.9949)  <1_pct_flow2: 0.9024 (0.8925)  <3_pct_flow2: 0.9878 (0.9858)  time: 1.3349 (1.3357)  data: 0.0365 (0.0380)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:22:15,356 fastmvsnet.train INFO: EPOCH:  4  iter: 1440  loss: 1.3736 (1.4252)  coarse_loss: 0.2822 (0.2870)  flow1_loss: 0.3762 (0.3827)  flow2_loss: 0.7152 (0.7554)  <1_pct_cor: 0.9806 (0.9781)  <3_pct_cor: 0.9962 (0.9954)  <1_pct_flow1: 0.9696 (0.9666)  <3_pct_flow1: 0.9956 (0.9949)  <1_pct_flow2: 0.8973 (0.8924)  <3_pct_flow2: 0.9875 (0.9858)  time: 1.3348 (1.3357)  data: 0.0364 (0.0380)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:22:28,759 fastmvsnet.train INFO: EPOCH:  4  iter: 1450  loss: 1.4627 (1.4256)  coarse_loss: 0.2992 (0.2872)  flow1_loss: 0.3989 (0.3829)  flow2_loss: 0.7646 (0.7556)  <1_pct_cor: 0.9775 (0.9781)  <3_pct_cor: 0.9952 (0.9954)  <1_pct_flow1: 0.9662 (0.9666)  <3_pct_flow1: 0.9945 (0.9949)  <1_pct_flow2: 0.8939 (0.8925)  <3_pct_flow2: 0.9854 (0.9858)  time: 1.3376 (1.3357)  data: 0.0362 (0.0380)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:22:42,107 fastmvsnet.train INFO: EPOCH:  4  iter: 1460  loss: 1.5592 (1.4270)  coarse_loss: 0.3169 (0.2875)  flow1_loss: 0.4226 (0.3833)  flow2_loss: 0.8197 (0.7563)  <1_pct_cor: 0.9726 (0.9781)  <3_pct_cor: 0.9941 (0.9954)  <1_pct_flow1: 0.9598 (0.9665)  <3_pct_flow1: 0.9934 (0.9949)  <1_pct_flow2: 0.8860 (0.8923)  <3_pct_flow2: 0.9821 (0.9857)  time: 1.3375 (1.3357)  data: 0.0362 (0.0380)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:22:55,447 fastmvsnet.train INFO: EPOCH:  4  iter: 1470  loss: 1.5660 (1.4276)  coarse_loss: 0.3186 (0.2876)  flow1_loss: 0.4248 (0.3835)  flow2_loss: 0.8226 (0.7565)  <1_pct_cor: 0.9737 (0.9781)  <3_pct_cor: 0.9935 (0.9954)  <1_pct_flow1: 0.9610 (0.9665)  <3_pct_flow1: 0.9934 (0.9949)  <1_pct_flow2: 0.8863 (0.8924)  <3_pct_flow2: 0.9837 (0.9857)  time: 1.3344 (1.3357)  data: 0.0363 (0.0380)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:23:08,835 fastmvsnet.train INFO: EPOCH:  4  iter: 1480  loss: 1.4656 (1.4275)  coarse_loss: 0.2997 (0.2876)  flow1_loss: 0.3996 (0.3835)  flow2_loss: 0.7664 (0.7564)  <1_pct_cor: 0.9780 (0.9781)  <3_pct_cor: 0.9940 (0.9954)  <1_pct_flow1: 0.9671 (0.9665)  <3_pct_flow1: 0.9942 (0.9949)  <1_pct_flow2: 0.9025 (0.8925)  <3_pct_flow2: 0.9869 (0.9857)  time: 1.3364 (1.3357)  data: 0.0363 (0.0379)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:23:22,274 fastmvsnet.train INFO: EPOCH:  4  iter: 1490  loss: 1.4626 (1.4280)  coarse_loss: 0.2994 (0.2878)  flow1_loss: 0.3992 (0.3837)  flow2_loss: 0.7641 (0.7566)  <1_pct_cor: 0.9769 (0.9780)  <3_pct_cor: 0.9951 (0.9954)  <1_pct_flow1: 0.9650 (0.9665)  <3_pct_flow1: 0.9943 (0.9949)  <1_pct_flow2: 0.8966 (0.8924)  <3_pct_flow2: 0.9851 (0.9857)  time: 1.3414 (1.3357)  data: 0.0365 (0.0379)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:23:35,674 fastmvsnet.train INFO: EPOCH:  4  iter: 1500  loss: 1.4453 (1.4278)  coarse_loss: 0.2952 (0.2877)  flow1_loss: 0.3936 (0.3836)  flow2_loss: 0.7564 (0.7564)  <1_pct_cor: 0.9774 (0.9781)  <3_pct_cor: 0.9952 (0.9954)  <1_pct_flow1: 0.9658 (0.9665)  <3_pct_flow1: 0.9947 (0.9949)  <1_pct_flow2: 0.8979 (0.8925)  <3_pct_flow2: 0.9854 (0.9857)  time: 1.3419 (1.3358)  data: 0.0366 (0.0379)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:23:49,074 fastmvsnet.train INFO: EPOCH:  4  iter: 1510  loss: 1.3524 (1.4270)  coarse_loss: 0.2767 (0.2876)  flow1_loss: 0.3689 (0.3835)  flow2_loss: 0.7068 (0.7559)  <1_pct_cor: 0.9810 (0.9781)  <3_pct_cor: 0.9954 (0.9954)  <1_pct_flow1: 0.9710 (0.9666)  <3_pct_flow1: 0.9953 (0.9949)  <1_pct_flow2: 0.9074 (0.8926)  <3_pct_flow2: 0.9882 (0.9857)  time: 1.3400 (1.3358)  data: 0.0363 (0.0379)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:24:02,454 fastmvsnet.train INFO: EPOCH:  4  iter: 1520  loss: 1.3248 (1.4264)  coarse_loss: 0.2709 (0.2875)  flow1_loss: 0.3612 (0.3833)  flow2_loss: 0.6927 (0.7556)  <1_pct_cor: 0.9813 (0.9781)  <3_pct_cor: 0.9960 (0.9954)  <1_pct_flow1: 0.9709 (0.9666)  <3_pct_flow1: 0.9955 (0.9949)  <1_pct_flow2: 0.9042 (0.8927)  <3_pct_flow2: 0.9883 (0.9858)  time: 1.3390 (1.3358)  data: 0.0362 (0.0379)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:24:15,841 fastmvsnet.train INFO: EPOCH:  4  iter: 1530  loss: 1.3316 (1.4258)  coarse_loss: 0.2735 (0.2874)  flow1_loss: 0.3646 (0.3832)  flow2_loss: 0.6935 (0.7551)  <1_pct_cor: 0.9800 (0.9781)  <3_pct_cor: 0.9963 (0.9954)  <1_pct_flow1: 0.9687 (0.9666)  <3_pct_flow1: 0.9956 (0.9949)  <1_pct_flow2: 0.9006 (0.8927)  <3_pct_flow2: 0.9869 (0.9858)  time: 1.3384 (1.3358)  data: 0.0363 (0.0379)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:24:29,164 fastmvsnet.train INFO: EPOCH:  4  iter: 1540  loss: 1.3332 (1.4252)  coarse_loss: 0.2747 (0.2873)  flow1_loss: 0.3663 (0.3831)  flow2_loss: 0.6921 (0.7547)  <1_pct_cor: 0.9808 (0.9781)  <3_pct_cor: 0.9957 (0.9954)  <1_pct_flow1: 0.9708 (0.9666)  <3_pct_flow1: 0.9955 (0.9949)  <1_pct_flow2: 0.9052 (0.8929)  <3_pct_flow2: 0.9878 (0.9858)  time: 1.3355 (1.3358)  data: 0.0363 (0.0379)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:24:42,514 fastmvsnet.train INFO: EPOCH:  4  iter: 1550  loss: 1.2817 (1.4239)  coarse_loss: 0.2630 (0.2871)  flow1_loss: 0.3507 (0.3828)  flow2_loss: 0.6681 (0.7540)  <1_pct_cor: 0.9820 (0.9782)  <3_pct_cor: 0.9963 (0.9954)  <1_pct_flow1: 0.9717 (0.9666)  <3_pct_flow1: 0.9962 (0.9949)  <1_pct_flow2: 0.9069 (0.8929)  <3_pct_flow2: 0.9883 (0.9858)  time: 1.3336 (1.3358)  data: 0.0361 (0.0379)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:24:55,914 fastmvsnet.train INFO: EPOCH:  4  iter: 1560  loss: 1.3664 (1.4244)  coarse_loss: 0.2800 (0.2872)  flow1_loss: 0.3734 (0.3830)  flow2_loss: 0.7130 (0.7542)  <1_pct_cor: 0.9788 (0.9781)  <3_pct_cor: 0.9960 (0.9954)  <1_pct_flow1: 0.9671 (0.9666)  <3_pct_flow1: 0.9959 (0.9949)  <1_pct_flow2: 0.9002 (0.8930)  <3_pct_flow2: 0.9860 (0.9858)  time: 1.3375 (1.3358)  data: 0.0363 (0.0379)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:25:09,255 fastmvsnet.train INFO: EPOCH:  4  iter: 1570  loss: 1.4585 (1.4244)  coarse_loss: 0.2983 (0.2872)  flow1_loss: 0.3977 (0.3830)  flow2_loss: 0.7625 (0.7541)  <1_pct_cor: 0.9768 (0.9781)  <3_pct_cor: 0.9947 (0.9954)  <1_pct_flow1: 0.9657 (0.9666)  <3_pct_flow1: 0.9946 (0.9949)  <1_pct_flow2: 0.8963 (0.8930)  <3_pct_flow2: 0.9855 (0.9858)  time: 1.3370 (1.3358)  data: 0.0364 (0.0378)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:25:22,577 fastmvsnet.train INFO: EPOCH:  4  iter: 1580  loss: 1.3871 (1.4240)  coarse_loss: 0.2854 (0.2872)  flow1_loss: 0.3805 (0.3830)  flow2_loss: 0.7212 (0.7538)  <1_pct_cor: 0.9774 (0.9781)  <3_pct_cor: 0.9956 (0.9954)  <1_pct_flow1: 0.9656 (0.9666)  <3_pct_flow1: 0.9947 (0.9949)  <1_pct_flow2: 0.8960 (0.8930)  <3_pct_flow2: 0.9853 (0.9858)  time: 1.3331 (1.3358)  data: 0.0364 (0.0378)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:25:35,914 fastmvsnet.train INFO: EPOCH:  4  iter: 1590  loss: 1.3957 (1.4240)  coarse_loss: 0.2863 (0.2872)  flow1_loss: 0.3817 (0.3830)  flow2_loss: 0.7276 (0.7538)  <1_pct_cor: 0.9782 (0.9781)  <3_pct_cor: 0.9956 (0.9954)  <1_pct_flow1: 0.9669 (0.9666)  <3_pct_flow1: 0.9951 (0.9949)  <1_pct_flow2: 0.9002 (0.8931)  <3_pct_flow2: 0.9858 (0.9858)  time: 1.3330 (1.3358)  data: 0.0363 (0.0378)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:25:49,293 fastmvsnet.train INFO: EPOCH:  4  iter: 1600  loss: 1.3979 (1.4236)  coarse_loss: 0.2852 (0.2872)  flow1_loss: 0.3802 (0.3829)  flow2_loss: 0.7325 (0.7535)  <1_pct_cor: 0.9797 (0.9781)  <3_pct_cor: 0.9952 (0.9954)  <1_pct_flow1: 0.9698 (0.9667)  <3_pct_flow1: 0.9952 (0.9949)  <1_pct_flow2: 0.9044 (0.8931)  <3_pct_flow2: 0.9874 (0.9858)  time: 1.3358 (1.3358)  data: 0.0363 (0.0378)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:26:02,643 fastmvsnet.train INFO: EPOCH:  4  iter: 1610  loss: 1.3277 (1.4228)  coarse_loss: 0.2727 (0.2871)  flow1_loss: 0.3635 (0.3827)  flow2_loss: 0.6915 (0.7530)  <1_pct_cor: 0.9806 (0.9782)  <3_pct_cor: 0.9956 (0.9954)  <1_pct_flow1: 0.9711 (0.9667)  <3_pct_flow1: 0.9952 (0.9949)  <1_pct_flow2: 0.9111 (0.8933)  <3_pct_flow2: 0.9877 (0.9858)  time: 1.3364 (1.3358)  data: 0.0362 (0.0378)  lr: 5.00e-04  max mem: 5899
+2020-06-04 11:26:15,994 fastmvsnet.train INFO: EPOCH:  4  iter: 1620  loss: 1.4635 (1.4241)  coarse_loss: 0.3010 (0.2874)  flow1_loss: 0.4014 (0.3832)  flow2_loss: 0.7611 (0.7536)  <1_pct_cor: 0.9760 (0.9781)  <3_pct_cor: 0.9945 (0.9954)  <1_pct_flow1: 0.9649 (0.9666)  <3_pct_flow1: 0.9942 (0.9949)  <1_pct_flow2: 0.8995 (0.8932)  <3_pct_flow2: 0.9847 (0.9858)  time: 1.3350 (1.3358)  data: 0.0362 (0.0378)  lr: 5.00e-04  max mem: 5899
