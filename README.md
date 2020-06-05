@@ -22,7 +22,7 @@ pip install -r requirements.txt
     ```python fastmvsnet/train.py --cfg configs/dtu.yaml``` - for original FastMVSNet
 
 
-    ```python fastmvsnet/train1.py --cfg configs/dtu.yaml``` - for FastMVSNet with gt_depth directly added into the input as another dimension
+    ```python fastmvsnet/train1.py --cfg configs/dtu.yaml``` - for FastMVSNet with gt_depth directly added into the input as another dimension (our modification)
   
     You can change the batch size in the configuration file ```configs/dtu.yaml```.
 
