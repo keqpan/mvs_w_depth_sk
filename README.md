@@ -26,7 +26,7 @@ pip install -r requirements.txt
   
     You can change the batch size in the configuration file ```configs/dtu.yaml```.
 
-### validation
+### Validation
 * Download the [rectified images](http://roboimagedata2.compute.dtu.dk/data/MVS/Rectified.zip) from [DTU benchmark](http://roboimagedata.compute.dtu.dk/?page_id=36) and unzip it to ```data/dtu/Eval```. Be sure to set appropriate paths in ```configs/dtu.yaml``` for validation. You can also set the validation frequency in ```fastmvsnet/config.py```:  _C.TRAIN.VAL_PERIOD
     
 * Test with the pretrained model
