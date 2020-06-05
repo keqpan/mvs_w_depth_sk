@@ -9,18 +9,22 @@ code to reproduce the results of Skoltech DL/FDS course project "How good MVSNet
 ## FastMVSNet
 
 ### Installation
- ```pip install -r requirements.txt```
+* Follow the instructions in the original repository.
+
+### Data
+* Download the preprocessed [DTU training data](https://drive.google.com/file/d/1eDjh-_bxKKnEuz5h-HXS7EDJn59clx6V/view) from [MVSNet](https://github.com/YoYo000/MVSNet) and unzip it to ```data/dtu```.
+* Generate the [Corrupted DTU](#corrupted-dtu) dataset (see below).
 
 ### Training
-* Download the preprocessed [DTU training data](https://drive.google.com/file/d/1eDjh-_bxKKnEuz5h-HXS7EDJn59clx6V/view) from [MVSNet](https://github.com/YoYo000/MVSNet) and unzip it to ```data/dtu```.
 * Train the network
 
 
     ```python fastmvsnet/train.py --cfg configs/dtu.yaml``` - for original FastMVSNet
 
 
-    ```python fastmvsnet/train1.py --cfg configs/dtu.yaml``` - for FastMVSNet with gt_depth directly added into the input as another dimension (our modification)
-  
+    ```python fastmvsnet/train1.py --cfg configs/dtu.yaml``` - for FastMVSNet with input depth added as addiitonal channel (our modification)
+
+
     You can change the batch size in the configuration file ```configs/dtu.yaml```.
 
 ### Validation
@@ -30,12 +34,6 @@ code to reproduce the results of Skoltech DL/FDS course project "How good MVSNet
 
     ```python fastmvsnet/test.py --cfg configs/dtu.yaml TEST.WEIGHT outputs/pretrained.pth```
 
-### Depth Fusion
-Run the depth fusion ```tools/depthfusion.py``` to get the complete point cloud. Please refer to [MVSNet](https://github.com/YoYo000/MVSNet) for more details.
-
-```bash
-python tools/depthfusion.py -f dtu -n flow2
-```
 
 
 ## CasMVSNet
