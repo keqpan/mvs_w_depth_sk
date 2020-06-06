@@ -9,7 +9,7 @@ code to reproduce the results of Skoltech DL/FDS course project "How good MVSNet
 ## FastMVSNet
 
 ### Installation
-* Follow the instructions in FastMVSNet directory.
+* Follow the instructions in FastMVS directory.
 
 ### Data
 * Download the preprocessed [DTU training data](https://drive.google.com/file/d/1eDjh-_bxKKnEuz5h-HXS7EDJn59clx6V/view) from [MVSNet](https://github.com/YoYo000/MVSNet) and unzip it to ```data/dtu```.
